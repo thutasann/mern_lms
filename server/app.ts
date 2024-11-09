@@ -3,6 +3,8 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
 
+require('dotenv').config();
+
 /** main express app */
 const app = express();
 
