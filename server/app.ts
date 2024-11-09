@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import path from 'path';
+import { handleErrorWithLogger } from './utils/error/handler';
 
 require('dotenv').config();
 
@@ -17,6 +18,7 @@ app.use(
 		origin: process.env.ORIGIN,
 	}),
 );
+app.use(handleErrorWithLogger);
 
 app.get('/', (req, res) => {
 	res.status(200).json({

@@ -8,13 +8,12 @@ import { logger } from '../logger';
  * @param res - response
  * @returns
  */
-export const HandleErrorWithLogger = (
+export const handleErrorWithLogger = (
+	error: any,
 	req: Request,
 	res: Response,
 	next: NextFunction,
-	error: Error,
-) => {
-	/** error report from tools implementations eg: Cloudwatch, Sentry etc */
+): void => {
 	let reportError = true;
 	let status = 500;
 	let data = error.message;
@@ -34,7 +33,7 @@ export const HandleErrorWithLogger = (
 		logger.warn(error);
 	}
 
-	return res.status(status).json(data);
+	res.status(status).json(data);
 };
 
 /**
