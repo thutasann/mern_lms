@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon server.ts",
-    "start": "rm -rf dist && tsc && node dist/server.js"
+    "start": "node dist/server.js",
+    "postbuild": "cp -R public dist/"
   },
   "keywords": [],
   "author": "",

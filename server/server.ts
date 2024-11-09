@@ -7,7 +7,7 @@ const PORT = process.env.PORT;
 connectDB()
 	.then(() => {
 		app.listen(PORT, () => {
-			logger.info(`Main Server is listening on http://localhost:${PORT}`);
+			logger.info(`Main Server is listening on http://localhost:${PORT} ✅`);
 		});
 	})
 	.catch((err) => {
