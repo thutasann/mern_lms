@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"target": "es2016",
+		"module": "CommonJS",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": false,
+		"strict": true,
+		"skipLibCheck": true,
+		"noImplicitAny": false,
+		"strictPropertyInitialization": false,
+		"experimentalDecorators": true,
+		"outDir": "./dist"
+	}
+}

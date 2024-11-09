@@ -2,9 +2,11 @@
   "name": "mern-lms-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "dev": "nodemon server.ts",
+    "start": "rm -rf dist && tsc && node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -18,11 +20,18 @@
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.1",
-    "ts-node-dev": "^2.0.0"
+    "pino": "^9.5.0",
+    "pino-http": "^10.3.0",
+    "pino-pretty": "^12.1.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.9.0",
+    "nodemon": "^3.1.7",
     "typescript": "^5.6.3"
   }
 }
