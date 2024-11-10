@@ -4,10 +4,11 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "build": "tsc && npm run minify",
+    "remove:dist": "rm -rf dist",
+    "build": "npm run remove:dist && tsc && npm run minify",
     "dev": "nodemon server.ts",
     "start": "node dist/server.js",
-    "postbuild": "cp -R public dist/",
+    "postbuild": "cp -R public dist/ && cp -R src/email-templates dist/src/",
     "minify": "find dist -name '*.js' -exec terser {} --compress --mangle --output {} \\;"
   },
   "keywords": [],
@@ -20,10 +21,12 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
     "express": "^4.21.1",
     "ioredis": "^5.4.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.1",
+    "nodemailer": "^6.9.16",
     "pino": "^9.5.0",
     "pino-http": "^10.3.0",
     "pino-pretty": "^12.1.0"
@@ -32,9 +35,11 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",
+    "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.9.0",
+    "@types/nodemailer": "^6.4.16",
     "nodemon": "^3.1.7",
     "terser": "^5.36.0",
     "typescript": "^5.6.3"

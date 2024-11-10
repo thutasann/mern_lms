@@ -1,4 +1,4 @@
-import app from './app';
+import app from './src/app';
 import { connectDB } from './src/core/utils/db';
 import { logger } from './src/core/utils/logger';
 

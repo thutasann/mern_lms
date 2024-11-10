@@ -1,7 +1,7 @@
 import mongoose, { ConnectOptions } from 'mongoose';
 import { logger } from '../logger';
 
-/** Connect Database */
+/** Connect Mongo Database */
 export const connectDB = async (retries = 5) => {
 	const mongoURI = process.env.DATABASE_URL;
 
