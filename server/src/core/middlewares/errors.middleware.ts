@@ -6,12 +6,6 @@ import {
 } from '../utils/error/errors';
 import { logger } from '../utils/logger';
 
-/** Catch Async Errors */
-export const catchAsyncErrors =
-	(func: any) => (req: Request, res: Response, next: NextFunction) => {
-		Promise.resolve(func(req, res, next)).catch(next);
-	};
-
 /**
  * Handle Error With Logger
  * @param error - error types

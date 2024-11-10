@@ -8,3 +8,9 @@ Functional MERN Stack LMS with
 - Redis
 - Upstash
 - Nextjs
+
+## Folder Structure
+
+| Topic               | Source             |
+| ------------------- | ------------------ |
+| Main Backend Server | [Source](./server) |
