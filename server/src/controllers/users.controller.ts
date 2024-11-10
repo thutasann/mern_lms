@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
 import { CreateUserRequest } from '../core/dto/user.dto';
 import { BadRequestError } from '../core/utils/error/errors';
 import { RequestValidator } from '../core/utils/error/request-validator';
@@ -15,6 +16,7 @@ class UserControllers {
 		this.registerUser = this.registerUser.bind(this);
 	}
 
+	@catchAsyncErrors()
 	public async registerUser(
 		req: Request,
 		res: Response | any,
