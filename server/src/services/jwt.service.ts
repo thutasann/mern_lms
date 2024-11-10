@@ -1,6 +1,8 @@
 import { Response } from 'express';
 import jwt, { type Secret } from 'jsonwebtoken';
 import { ActivationToken, IUser, TokenOptions } from '../core/types/user.type';
+import { logger } from '../core/utils/logger';
+import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 
 /** JWT service */
@@ -34,6 +36,9 @@ export class JwtService {
 	sendToken(user: IUser, statusCode: number, res: Response) {
 		const accessToken = user.signAccessToken();
 		const refreshToken = user.signRefreshToken();
+
+		// upload session to redis
+		redis.set(user._id as string, JSON.stringify(user));
 
 		/** access token expire time */
 		const accessTokenExpire = parseInt(
@@ -72,9 +77,11 @@ export class JwtService {
 
 		res.cookie('refresh_token', refreshToken, refreshTokenOptions);
 
+		logger.info(`send token successful ${user.email}`);
+
 		res.status(statusCode).json(
 			Responer({
-				statusCode: 201,
+				statusCode,
 				devMessage: 'AccessToken',
 				message: `Sent token successfully`,
 				body: {

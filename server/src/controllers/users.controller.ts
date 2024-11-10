@@ -130,6 +130,35 @@ class UserControllers {
 			);
 		}
 	}
+
+	@catchAsyncErrors()
+	public async logoutUser(
+		req: Request,
+		res: Response | any,
+		next: NextFunction,
+	) {
+		try {
+			res.cookie('access_token', '', { maxAge: 1 });
+			res.cookie('refresh_token', '', { maxAge: 1 });
+			return res.status(200).json(
+				Responer({
+					statusCode: 200,
+					devMessage: 'Logout',
+					message: 'User Logout successfully',
+					body: {},
+				}),
+			);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in User Logout`,
+					body: {},
+				}),
+			);
+		}
+	}
 }
 
 const userService = new UserService(new JwtService(), new EmailService());

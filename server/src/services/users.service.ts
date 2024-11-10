@@ -113,6 +113,8 @@ export class UserService {
 			if (!isPasswordMatch) {
 				throw new BadRequestError('Invalid password');
 			}
+
+			this._jwtService.sendToken(user, 200, res);
 		} catch (error) {
 			throw new APIError(`Error in logging user : ${error}`);
 		}
