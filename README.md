@@ -1,6 +1,6 @@
 # MERN LMS
 
-Functional MERN Stack LMS with
+MERN Stack LMS with
 
 - Nodejs
 - Expressjs
@@ -11,6 +11,6 @@ Functional MERN Stack LMS with
 
 ## Folder Structure
 
-| Topic               | Source             |
+| App                 | Source             |
 | ------------------- | ------------------ |
 | Main Backend Server | [Source](./server) |

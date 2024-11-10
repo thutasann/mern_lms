@@ -10,5 +10,6 @@ userRouter.post(
 	responseTimeMiddleware,
 	userController.registerUser,
 );
+userRouter.post('/users/activate', userController.activeUser);
 
 export default userRouter;

@@ -1,5 +1,7 @@
-import { CreateUserRequest } from '../core/dto/user.dto';
+import jwt from 'jsonwebtoken';
+import { ActivateUserRequest, CreateUserRequest } from '../core/dto/user.dto';
 import userModel from '../core/models/user.model';
+import { IUser } from '../core/types/user.type';
 import { APIError, BadRequestError } from '../core/utils/error/errors';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from './email.service';
@@ -50,6 +52,45 @@ export class UserService {
 			});
 		} catch (error) {
 			throw new APIError(`Error in creating user: ${error}`);
+		}
+	}
+
+	/** activate uesr */
+	async activateUser(body: ActivateUserRequest) {
+		try {
+			const { activation_token, activation_code } = body;
+
+			const newUser = jwt.verify(
+				activation_token,
+				process.env.JWT_SECRET as string,
+			) as { user: IUser; activationCode: string };
+
+			if (newUser.activationCode !== activation_code) {
+				throw new BadRequestError('Invalid Activation code');
+			}
+
+			const { name, email, password } = newUser.user;
+
+			const existedUser = await userModel.findOne({ email });
+
+			if (existedUser) {
+				throw new BadRequestError(`Email already exist`);
+			}
+
+			const user = await userModel.create({
+				name,
+				email,
+				password,
+			});
+
+			return Responer({
+				statusCode: 201,
+				devMessage: 'Activated and Registered User Success',
+				message: `Registered account succcessfully`,
+				body: user,
+			});
+		} catch (error) {
+			throw new APIError(`Error in activating user: ${error}`);
 		}
 	}
 }

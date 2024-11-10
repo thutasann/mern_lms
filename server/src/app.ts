@@ -23,7 +23,17 @@ app.use(
 app.use(handleErrorWithLogger);
 
 // Routers
-app.use(mainRouter);
+app.use(MAINSERVER_PREFIX, mainRouter);
 app.use(MAINSERVER_PREFIX, userRouter);
+
+app.all('*', (req, res) => {
+	const not_found_path = path.join(
+		__dirname,
+		'../',
+		'public',
+		'not-found.html',
+	);
+	res.status(404).sendFile(not_found_path);
+});
 
 export default app;

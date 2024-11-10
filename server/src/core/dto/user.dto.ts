@@ -15,3 +15,12 @@ export class CreateUserRequest {
 	@IsString()
 	avatar?: string;
 }
+
+/** Activate User Request */
+export class ActivateUserRequest {
+	@IsString()
+	activation_token: string;
+
+	@IsString()
+	activation_code: string;
+}

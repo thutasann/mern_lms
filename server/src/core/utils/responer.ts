@@ -1,7 +1,7 @@
 /** Responer Interface */
 export interface IResponser<T> {
 	statusCode: number;
-	message: string;
+	message: string | unknown;
 	devMessage: string;
 	body: T;
 }
