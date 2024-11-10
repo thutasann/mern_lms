@@ -2,12 +2,12 @@ import type { NextFunction, Request, Response } from 'express';
 import { logger } from '../utils/logger';
 
 /**
- * Request Time Middleware
+ * Response Time Middleware
  * @param req - request
  * @param res - response
  * @param next - next function
  */
-export function requestTimeMiddleware(
+export function responseTimeMiddleware(
 	req: Request,
 	res: Response,
 	next: NextFunction,

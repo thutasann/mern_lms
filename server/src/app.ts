@@ -3,6 +3,9 @@ import cors from 'cors';
 import express from 'express';
 import path from 'path';
 import { handleErrorWithLogger } from './core/middlewares/errors.middleware';
+import { MAINSERVER_PREFIX } from './core/utils/constants';
+import { Responer } from './core/utils/responer';
+import userRouter from './routes/users.route';
 
 require('dotenv').config();
 
@@ -10,7 +13,7 @@ require('dotenv').config();
 const app = express();
 
 // middlewares
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser());
 app.use(
@@ -20,12 +23,20 @@ app.use(
 );
 app.use(handleErrorWithLogger);
 
-app.get('/', (req, res) => {
-	res.status(200).json({
-		success: true,
-		message: 'MERN LMS API V.1.0.0',
-	});
+app.use(MAINSERVER_PREFIX, userRouter);
+
+app.get(MAINSERVER_PREFIX, (req, res, next) => {
+	res.status(200).json(
+		Responer({
+			body: 'MERN LMS Server',
+			message: 'Welcome to MERN LMS',
+			devMessage: 'welcome',
+			statusCode: 200,
+		}),
+	);
 });
+
+app.post('/faldaf', (req, res, next) => {});
 
 // not found routes
 app.all('*', (req, res) => {

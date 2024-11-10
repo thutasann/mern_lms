@@ -1,5 +1,7 @@
+import ejs from 'ejs';
 import nodemailer, { Transporter } from 'nodemailer';
 import path from 'path';
+import { APIError } from '../core/utils/error/errors';
 
 type EmailOptions = {
 	email: string;
@@ -11,22 +13,39 @@ type EmailOptions = {
 };
 
 /**
- * Email Service
+ * Email Service using nodemailer
  */
 export class EmailService {
+	/**
+	 * Send email using nodemailer and ejs
+	 * @param options - email options
+	 */
 	async sendEmail<T>(options: EmailOptions): Promise<void> {
-		const transport: Transporter = nodemailer.createTransport({
-			host: process.env.SMTP_HOST,
-			port: process.env.SMTP_PORT,
-			service: process.env.SMTP_SERVICE,
-			auth: {
-				user: process.env.SMTP_MAIL,
-				pass: process.env.SMTP_PASSWORD,
-			},
-		});
+		try {
+			const transport: Transporter = nodemailer.createTransport({
+				host: process.env.SMTP_HOST,
+				port: parseInt(process.env.SMTP_PORT || '465'),
+				service: process.env.SMTP_SERVICE,
+				auth: {
+					user: process.env.SMTP_MAIL,
+					pass: process.env.SMTP_PASSWORD,
+				},
+			});
 
-		const { email, subject, tempate, data } = options;
+			const { email, subject, tempate, data } = options;
+			const templatePath = path.join(__dirname, '../email-templates', tempate);
+			const html: string = await ejs.renderFile(templatePath, data);
 
-		const templatePath = path.join(__dirname, '../email-templates', tempate);
+			const mailOptions = {
+				from: process.env.SMTP_MAIL,
+				to: email,
+				subject,
+				html,
+			};
+
+			await transport.sendMail(mailOptions);
+		} catch (error) {
+			throw new APIError(`Error in sending email : ${error}`);
+		}
 	}
 }

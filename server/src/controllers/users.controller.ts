@@ -1,31 +1,38 @@
 import { NextFunction, Request, Response } from 'express';
-import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
 import { CreateUserRequest } from '../core/dto/user.dto';
-import { APIError, BadRequestError } from '../core/utils/error/errors';
+import { BadRequestError } from '../core/utils/error/errors';
 import { RequestValidator } from '../core/utils/error/request-validator';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/users.service';
 
 /**
  * User Controllers
  */
-export class UserControllers {
-	private static readonly _userService: UserService;
+class UserControllers {
+	private readonly userService: UserService;
 
-	@catchAsyncErrors()
-	static async registerUser(req: Request, res: Response, next: NextFunction) {
-		try {
-			const { errors, input } = await RequestValidator(
-				CreateUserRequest,
-				req.body,
-			);
+	constructor() {
+		this.userService = new UserService();
+		this.registerUser = this.registerUser.bind(this);
+	}
 
-			if (errors) {
-				return res.status(400).json(new BadRequestError(errors as string));
-			}
+	public async registerUser(
+		req: Request,
+		res: Response | any,
+		next: NextFunction,
+	) {
+		const { errors, input } = await RequestValidator(
+			CreateUserRequest,
+			req.body,
+		);
 
-			await this._userService.createUser(input);
-		} catch (error: any) {
-			return res.status(500).json(new APIError(error));
+		if (errors) {
+			return res.status(400).json(new BadRequestError(errors as string));
 		}
+
+		const result = await this.userService.createUser(input);
+
+		return res.status(201).json(result);
 	}
 }
+
+export const userController = new UserControllers();
