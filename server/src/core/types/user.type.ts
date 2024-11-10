@@ -14,3 +14,11 @@ export interface IUser extends Document {
 	courses: Array<{ courseId: string }>;
 	comparePassword: (password: string) => Promise<boolean>;
 }
+
+/** Activation Token */
+export type ActivationToken = {
+	/** jwt token */
+	token: string;
+	/** activation code */
+	activationCode: string;
+};

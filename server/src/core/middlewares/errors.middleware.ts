@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import {
 	AuthorizeError,
+	BadRequestError,
 	NotFoundError,
-	ValidationError,
 } from '../utils/error/errors';
 import { logger } from '../utils/logger';
 
@@ -23,7 +23,7 @@ export const handleErrorWithLogger = (
 	let data = error.message;
 
 	// skip common / known errors
-	[NotFoundError, ValidationError, AuthorizeError].forEach((errorType) => {
+	[NotFoundError, BadRequestError, AuthorizeError].forEach((errorType) => {
 		if (error instanceof errorType) {
 			reportError = false;
 			status = error.status;

@@ -15,5 +15,8 @@ declare namespace NodeJS {
 
 		// Redis
 		REDIS_URL: string;
+
+		// JWT
+		JWT_SECRET: string;
 	}
 }

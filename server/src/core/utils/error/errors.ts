@@ -32,9 +32,9 @@ export class APIError extends BaseError {
 }
 
 /**
- * 400 Validation Error
+ * 400 BadRequestError Error
  */
-export class ValidationError extends BaseError {
+export class BadRequestError extends BaseError {
 	constructor(description = 'bad request') {
 		super('bad request', STATUS_CODES.BAD_REQUEST, description);
 	}
