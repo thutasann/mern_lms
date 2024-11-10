@@ -23,8 +23,10 @@ app.use(
 );
 app.use(handleErrorWithLogger);
 
+// Routers
 app.use(MAINSERVER_PREFIX, userRouter);
 
+// welcome
 app.get(MAINSERVER_PREFIX, (req, res, next) => {
 	res.status(200).json(
 		Responer({
@@ -35,8 +37,6 @@ app.get(MAINSERVER_PREFIX, (req, res, next) => {
 		}),
 	);
 });
-
-app.post('/faldaf', (req, res, next) => {});
 
 // not found routes
 app.all('*', (req, res) => {

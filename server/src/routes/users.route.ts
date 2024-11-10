@@ -3,12 +3,12 @@ import { userController } from '../controllers/users.controller';
 import { responseTimeMiddleware } from '../core/middlewares/response-time.middleware';
 
 /** users router */
-const router = express.Router();
+const userRouter = express.Router();
 
-router.post(
+userRouter.post(
 	'/users/register',
 	responseTimeMiddleware,
 	userController.registerUser,
 );
 
-export default router;
+export default userRouter;
