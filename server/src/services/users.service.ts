@@ -1,5 +1,10 @@
+import { Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { ActivateUserRequest, CreateUserRequest } from '../core/dto/user.dto';
+import {
+	ActivateUserRequest,
+	CreateUserRequest,
+	LoginRequest,
+} from '../core/dto/user.dto';
 import userModel from '../core/models/user.model';
 import { IUser } from '../core/types/user.type';
 import { APIError, BadRequestError } from '../core/utils/error/errors';
@@ -7,9 +12,7 @@ import { Responer } from '../core/utils/responer';
 import { EmailService } from './email.service';
 import { JwtService } from './jwt.service';
 
-/**
- * User Service
- */
+/** User Service */
 export class UserService {
 	constructor(
 		private readonly _jwtService: JwtService,
@@ -91,6 +94,27 @@ export class UserService {
 			});
 		} catch (error) {
 			throw new APIError(`Error in activating user: ${error}`);
+		}
+	}
+
+	/** login user */
+	async loginUser(body: LoginRequest, res: Response) {
+		try {
+			const { email, password } = body;
+
+			const user = await userModel.findOne({ email }).select('+password');
+
+			if (!user) {
+				throw new BadRequestError('Invalid email or password');
+			}
+
+			const isPasswordMatch = await user.comparePassword(password);
+
+			if (!isPasswordMatch) {
+				throw new BadRequestError('Invalid password');
+			}
+		} catch (error) {
+			throw new APIError(`Error in logging user : ${error}`);
 		}
 	}
 }

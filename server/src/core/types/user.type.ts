@@ -24,3 +24,12 @@ export type ActivationToken = {
 	/** activation code */
 	activationCode: string;
 };
+
+/** Token Options */
+export type TokenOptions = {
+	expires: Date;
+	maxAge: number;
+	httpOnly: boolean;
+	sameSite: 'lax' | 'strict' | 'none' | undefined;
+	secure?: boolean;
+};
