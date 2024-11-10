@@ -1,13 +1,11 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import mongoose, { type Model, type Schema } from 'mongoose';
 import { IUser } from '../types/user.type';
+import { emailRegex } from '../utils/constants';
 
-const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-/**
- * User Schema
- */
-const userSchema: Schema<IUser> = new mongoose.Schema(
+/** User Schema */
+const userSchema: Schema<IUser> = new mongoose.Schema<IUser>(
 	{
 		name: {
 			type: String,
@@ -51,7 +49,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-// password hash before hashing
+// password hash
 userSchema.pre<IUser>('save', async function (next) {
 	if (!this.isModified('password')) {
 		next();
@@ -60,6 +58,16 @@ userSchema.pre<IUser>('save', async function (next) {
 	next();
 });
 
+// sign access token
+userSchema.methods.signAccessToken = function () {
+	return jwt.sign({ id: this._id }, process.env.ACCEESS_TOKEN || '');
+};
+
+// sign refresh token
+userSchema.methods.signRefreshToken = function () {
+	return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN || '');
+};
+
 // compare password
 userSchema.methods.comparePassword = async function (
 	enteredPassword: string,
@@ -67,9 +75,7 @@ userSchema.methods.comparePassword = async function (
 	return await bcrypt.compare(enteredPassword, this.password);
 };
 
-/**
- * User Model
- */
-const userModel: Model<IUser> = mongoose.model('User', userSchema);
+/** User Model */
+const userModel: Model<IUser> = mongoose.model<IUser>('User', userSchema);
 
 export default userModel;

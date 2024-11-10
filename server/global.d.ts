@@ -19,6 +19,10 @@ declare namespace NodeJS {
 		// JWT
 		JWT_SECRET: string;
 
+		// Token
+		ACCEESS_TOKEN: string;
+		REFRESH_TOKEN: string;
+
 		// Email Service
 		SMTP_HOST: string;
 		SMTP_PORT: string;
