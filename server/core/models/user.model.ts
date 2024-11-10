@@ -1,5 +1,5 @@
-import mongoose, { type Document, type Model, type Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
+import mongoose, { type Model, type Schema } from 'mongoose';
 import { IUser } from '../types/user.type';
 
 const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

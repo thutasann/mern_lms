@@ -1,8 +1,8 @@
-import express from 'express';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import express from 'express';
 import path from 'path';
-import { handleErrorWithLogger } from './middlewares/errors.middleware';
+import { handleErrorWithLogger } from './core/middlewares/errors.middleware';
 
 require('dotenv').config();
 

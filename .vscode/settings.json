@@ -5,7 +5,7 @@
     "[typescript]": {
       "editor.defaultFormatter": "esbenp.prettier-vscode",
       "editor.codeActionsOnSave": {
-        "source.organizeImports": "never"
+        "source.organizeImports": "always"
       }
     },
     "[typescriptreact]": {
