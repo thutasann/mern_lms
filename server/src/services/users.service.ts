@@ -9,13 +9,10 @@ import { JwtService } from './jwt.service';
  * User Service
  */
 export class UserService {
-	private readonly _jwtService: JwtService;
-	private readonly _emailService: EmailService;
-
-	constructor() {
-		this._jwtService = new JwtService();
-		this._emailService = new EmailService();
-	}
+	constructor(
+		private readonly _jwtService: JwtService,
+		private readonly _emailService: EmailService,
+	) {}
 
 	/** create user */
 	async createUser(body: CreateUserRequest) {
