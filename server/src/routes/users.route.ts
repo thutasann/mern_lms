@@ -9,5 +9,10 @@ userRouter.post('/users/register', userController.registerUser);
 userRouter.post('/users/activate', userController.activeUser);
 userRouter.post('/users/login', userController.loginUser);
 userRouter.post('/users/logout', isAuthenticated, userController.logoutUser);
+userRouter.post(
+	'/users/refresh-token',
+	isAuthenticated,
+	userController.updateAccessToken,
+);
 
 export default userRouter;

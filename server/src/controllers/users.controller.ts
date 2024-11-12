@@ -1,10 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
 import {
 	ActivateUserRequest,
 	CreateUserRequest,
 	LoginRequest,
 } from '../core/dto/user.dto';
+import { IUser } from '../core/types/user.type';
 import { RequestValidator } from '../core/utils/error/request-validator';
 import { logger } from '../core/utils/logger';
 import redis from '../core/utils/redis';
@@ -171,6 +173,70 @@ class UserControllers {
 					statusCode: 500,
 					message: error,
 					devMessage: `Something went wrong in User Logout`,
+					body: {},
+				}),
+			);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async updateAccessToken(
+		req: Request,
+		res: Response | any,
+		next: NextFunction,
+	) {
+		try {
+			const refresh_token = req.cookies.refresh_token as string;
+			const decoded = jwt.verify(
+				refresh_token,
+				process.env.REFRESH_TOKEN as string,
+			) as JwtPayload;
+
+			if (!decoded) {
+				return res.status(400).json(
+					Responer({
+						statusCode: 400,
+						message: 'Could not refresh token',
+						devMessage: 'Refresh Token processs is not succssful',
+						body: {},
+					}),
+				);
+			}
+			const session = await redis.get(decoded.id as string);
+
+			if (!session) {
+				return res.status(400).json(
+					Responer({
+						statusCode: 400,
+						message: 'Session is invalid',
+						devMessage: 'Session is invalid',
+						body: {},
+					}),
+				);
+			}
+
+			const user = JSON.parse(session) as IUser;
+			logger.info(
+				`User from redis session for refresh_token :: ${user?.email}`,
+			);
+
+			const accessToken = jwt.sign(
+				{ id: user?._id },
+				process.env.ACCEESS_TOKEN as string,
+				{ expiresIn: '5m' },
+			);
+
+			const refreshToken = jwt.sign(
+				{ id: user?._id },
+				process.env.REFRESH_TOKEN as string,
+				{ expiresIn: '3d' },
+			);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in Refresh Token`,
 					body: {},
 				}),
 			);
