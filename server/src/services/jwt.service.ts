@@ -5,6 +5,34 @@ import { logger } from '../core/utils/logger';
 import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 
+/** access token expire time @internal */
+const accessTokenExpire = parseInt(
+	process.env.ACCESS_TOKEN_EXPIRE || '300',
+	10,
+);
+
+/** refresh token expire time @internal */
+const refreshTokenExpire = parseInt(
+	process.env.REFRESH_TOKEN_EXPIRE || '1200',
+	10,
+);
+
+/** options for cookies (access token) */
+export const accessTokenOptions: TokenOptions = {
+	expires: new Date(Date.now() + accessTokenExpire * 60 * 60 * 1000),
+	maxAge: accessTokenExpire * 60 * 60 * 1000,
+	httpOnly: true,
+	sameSite: 'lax',
+};
+
+/** options for cookies (refresh token) */
+export const refreshTokenOptions: TokenOptions = {
+	expires: new Date(Date.now() + refreshTokenExpire * 24 * 60 * 60 * 1000),
+	maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
+	httpOnly: true,
+	sameSite: 'lax',
+};
+
 /** JWT service */
 export class JwtService {
 	/**
@@ -39,34 +67,6 @@ export class JwtService {
 
 		// upload session to redis
 		redis.set(user._id as string, JSON.stringify(user));
-
-		/** access token expire time */
-		const accessTokenExpire = parseInt(
-			process.env.ACCESS_TOKEN_EXPIRE || '300',
-			10,
-		);
-
-		/** refresh token expire time */
-		const refreshTokenExpire = parseInt(
-			process.env.REFRESH_TOKEN_EXPIRE || '1200',
-			10,
-		);
-
-		/** options for cookies (access token) */
-		const accessTokenOptions: TokenOptions = {
-			expires: new Date(Date.now() + accessTokenExpire * 60 * 60 * 1000),
-			maxAge: accessTokenExpire * 60 * 60 * 1000,
-			httpOnly: true,
-			sameSite: 'lax',
-		};
-
-		/** options for cookies (refresh token) */
-		const refreshTokenOptions: TokenOptions = {
-			expires: new Date(Date.now() + refreshTokenExpire * 24 * 60 * 60 * 1000),
-			maxAge: refreshTokenExpire * 24 * 60 * 60 * 1000,
-			httpOnly: true,
-			sameSite: 'lax',
-		};
 
 		// only seet secure to true in production
 		if (process.env.NODE_ENV === 'production') {

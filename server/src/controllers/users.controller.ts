@@ -12,7 +12,11 @@ import { logger } from '../core/utils/logger';
 import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from '../services/email.service';
-import { JwtService } from '../services/jwt.service';
+import {
+	accessTokenOptions,
+	JwtService,
+	refreshTokenOptions,
+} from '../services/jwt.service';
 import { UserService } from '../services/users.service';
 
 /** User Controllers */
@@ -230,6 +234,20 @@ class UserControllers {
 				{ id: user?._id },
 				process.env.REFRESH_TOKEN as string,
 				{ expiresIn: '3d' },
+			);
+
+			res.cookie('access_token', accessToken, accessTokenOptions);
+			res.cookie('refresh_token', refreshToken, refreshTokenOptions);
+
+			return res.status(200).json(
+				Responer({
+					statusCode: 200,
+					message: 'updaed access token successfully',
+					devMessage: `access token update`,
+					body: {
+						accessToken,
+					},
+				}),
 			);
 		} catch (error) {
 			return res.status(500).json(
