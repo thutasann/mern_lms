@@ -139,11 +139,19 @@ class UserControllers {
 		next: NextFunction,
 	) {
 		try {
-			res.cookie('access_token', '', { maxAge: 1 });
-			res.cookie('refresh_token', '', { maxAge: 1 });
+			const cookieOptions = {
+				httpOnly: true,
+				sameSite: 'lax' as const,
+				secure: process.env.NODE_ENV === 'production',
+			};
+
+			res.clearCookie('access_token', cookieOptions);
+			res.clearCookie('refresh_token', cookieOptions);
 
 			const userId = req.user?._id || '';
-			redis.del(userId as string);
+			if (userId) {
+				await redis.del(userId as string);
+			}
 
 			logger.info(
 				`User logout and Removed from Redis successfully :: ${req.user.email}`,

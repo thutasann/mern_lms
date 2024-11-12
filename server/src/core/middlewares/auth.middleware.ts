@@ -2,6 +2,7 @@ import { NextFunction, Request } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { IUser } from '../types/user.type';
 import { AuthorizeError, NotFoundError } from '../utils/error/errors';
+import { logger } from '../utils/logger';
 import redis from '../utils/redis';
 import { Responer } from '../utils/responer';
 
@@ -29,6 +30,7 @@ export const isAuthenticated = async (
 	next: NextFunction,
 ) => {
 	const access_token = req.cookies.access_token;
+	logger.info(`access_token : ${access_token}`);
 
 	if (!access_token) {
 		return res.status(401).json(
