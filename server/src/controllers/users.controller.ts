@@ -7,6 +7,7 @@ import {
 } from '../core/dto/user.dto';
 import { RequestValidator } from '../core/utils/error/request-validator';
 import { logger } from '../core/utils/logger';
+import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from '../services/email.service';
 import { JwtService } from '../services/jwt.service';
@@ -141,7 +142,12 @@ class UserControllers {
 			res.cookie('access_token', '', { maxAge: 1 });
 			res.cookie('refresh_token', '', { maxAge: 1 });
 
-			logger.info(`User logout successfully ::`);
+			const userId = req.user?._id || '';
+			redis.del(userId as string);
+
+			logger.info(
+				`User logout and Removed from Redis successfully :: ${req.user.email}`,
+			);
 
 			return res.status(200).json(
 				Responer({
