@@ -140,6 +140,9 @@ class UserControllers {
 		try {
 			res.cookie('access_token', '', { maxAge: 1 });
 			res.cookie('refresh_token', '', { maxAge: 1 });
+
+			logger.info(`User logout successfully ::`);
+
 			return res.status(200).json(
 				Responer({
 					statusCode: 200,
