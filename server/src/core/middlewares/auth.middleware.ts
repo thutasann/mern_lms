@@ -31,7 +31,7 @@ export const isAuthenticated = async (
 ) => {
 	try {
 		const access_token = req.cookies.access_token;
-		logger.info(`Validating access token for request`);
+		logger.info(`:: Validating access token for request ::`);
 
 		if (!access_token || access_token === 'undefined') {
 			logger.warn('No access token provided in request');

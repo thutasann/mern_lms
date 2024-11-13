@@ -14,5 +14,6 @@ userRouter.post(
 	isAuthenticated,
 	userController.updateAccessToken,
 );
+userRouter.get('/users/get', isAuthenticated, userController.getUserById);
 
 export default userRouter;

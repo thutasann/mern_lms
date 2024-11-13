@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import {
 	ActivateUserRequest,
 	CreateUserRequest,
@@ -118,5 +119,20 @@ export class UserService {
 		} catch (error) {
 			throw new APIError(`Error in logging user : ${error}`);
 		}
+	}
+
+	async getUserById(_id: string) {
+		const objectId = new mongoose.Types.ObjectId(_id);
+		const user = await userModel.findOne({
+			_id: objectId,
+		});
+		return Responer({
+			statusCode: 201,
+			devMessage: 'get user by Id',
+			message: `get user by Id success`,
+			body: {
+				user,
+			},
+		});
 	}
 }

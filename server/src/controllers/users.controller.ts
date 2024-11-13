@@ -25,6 +25,7 @@ class UserControllers {
 		this.registerUser = this.registerUser.bind(this);
 		this.activeUser = this.activeUser.bind(this);
 		this.loginUser = this.loginUser.bind(this);
+		this.getUserById = this.getUserById.bind(this);
 	}
 
 	@catchAsyncErrors()
@@ -256,6 +257,27 @@ class UserControllers {
 					message: error,
 					devMessage: `Something went wrong in Refresh Token`,
 					body: {},
+				}),
+			);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async getUserById(
+		req: Request,
+		res: Response | any,
+		next: NextFunction,
+	) {
+		try {
+			const user = await this.userService.getUserById(req?.user?._id as string);
+			return res.status(201).json(user);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `get by user Id failed`,
+					body: { error },
 				}),
 			);
 		}
