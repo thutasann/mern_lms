@@ -102,6 +102,7 @@ export class UserService {
 	/** login user */
 	async loginUser(body: LoginRequest, res: Response) {
 		try {
+			console.log('body', body);
 			const { email, password } = body;
 
 			const user = await userModel.findOne({ email }).select('+password');
