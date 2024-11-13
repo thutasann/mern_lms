@@ -50,3 +50,15 @@ export class LoginRequest {
 	@MinLength(8, { message: 'Password must be at least 8 characters long' })
 	password: string;
 }
+
+/** Social Auth Request */
+export class SocialAuthRequest {
+	@IsEmail({}, { message: 'Please provide a valid email address' })
+	email: string;
+
+	@IsString({ message: 'Name must be a string' })
+	name: string;
+
+	@IsString({ message: 'Avatar must be a string' })
+	avatar: string;
+}

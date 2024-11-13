@@ -5,6 +5,7 @@ import {
 	ActivateUserRequest,
 	CreateUserRequest,
 	LoginRequest,
+	SocialAuthRequest,
 } from '../core/dto/user.dto';
 import userModel from '../core/models/user.model';
 import { IUser } from '../core/types/user.type';
@@ -115,12 +116,13 @@ export class UserService {
 				throw new BadRequestError('Invalid password');
 			}
 
-			this._jwtService.sendToken(user, 200, res);
+			await this._jwtService.sendToken(user, 200, res);
 		} catch (error) {
 			throw new APIError(`Error in logging user : ${error}`);
 		}
 	}
 
+	/** get user by Id */
 	async getUserById(_id: string) {
 		const objectId = new mongoose.Types.ObjectId(_id);
 		const user = await userModel.findOne({
@@ -134,5 +136,24 @@ export class UserService {
 				user,
 			},
 		});
+	}
+
+	/** social auth */
+	async socialAuth(
+		body: SocialAuthRequest,
+		res: Response | any,
+	): Promise<void> {
+		try {
+			const { email, name, avatar } = body;
+			const user = await userModel.findOne({ email });
+			if (!user) {
+				const newUser = await userModel.create({ name, email, avatar });
+				await this._jwtService.sendToken(newUser, 200, res);
+			} else {
+				await this._jwtService.sendToken(user, 200, res);
+			}
+		} catch (error) {
+			throw new APIError(`Error in social auth : %{error}`);
+		}
 	}
 }

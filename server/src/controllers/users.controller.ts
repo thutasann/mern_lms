@@ -5,6 +5,7 @@ import {
 	ActivateUserRequest,
 	CreateUserRequest,
 	LoginRequest,
+	SocialAuthRequest,
 } from '../core/dto/user.dto';
 import { IUser } from '../core/types/user.type';
 import { RequestValidator } from '../core/utils/error/request-validator';
@@ -26,6 +27,7 @@ class UserControllers {
 		this.activeUser = this.activeUser.bind(this);
 		this.loginUser = this.loginUser.bind(this);
 		this.getUserById = this.getUserById.bind(this);
+		this.socialAuth = this.socialAuth.bind(this);
 	}
 
 	@catchAsyncErrors()
@@ -270,13 +272,44 @@ class UserControllers {
 	) {
 		try {
 			const user = await this.userService.getUserById(req?.user?._id as string);
-			return res.status(201).json(user);
+			return res.status(200).json(
+				Responer({
+					statusCode: 200,
+					devMessage: 'Social Auth success',
+					message: 'Social Auth successfully',
+					body: {},
+				}),
+			);
 		} catch (error) {
 			return res.status(500).json(
 				Responer({
 					statusCode: 500,
 					message: error,
 					devMessage: `get by user Id failed`,
+					body: { error },
+				}),
+			);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async socialAuth(req: Request, res: Response | any) {
+		try {
+			const { name, email, avatar } = req.body as SocialAuthRequest;
+			await this.userService.socialAuth(
+				{
+					name,
+					email,
+					avatar,
+				},
+				res,
+			);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `social auth failed`,
 					body: { error },
 				}),
 			);

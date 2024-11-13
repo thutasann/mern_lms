@@ -61,12 +61,12 @@ export class JwtService {
 	 * @param statusCode - status code
 	 * @param res - express response
 	 */
-	sendToken(user: IUser, statusCode: number, res: Response) {
+	async sendToken(user: IUser, statusCode: number, res: Response) {
 		const accessToken = user.signAccessToken();
 		const refreshToken = user.signRefreshToken();
 
 		// upload session to redis
-		redis.set(user._id as string, JSON.stringify(user));
+		await redis.set(user._id as string, JSON.stringify(user));
 
 		// only seet secure to true in production
 		if (process.env.NODE_ENV === 'production') {
