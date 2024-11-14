@@ -12,6 +12,7 @@
         "outDir": "./dist"
     },
     "include": [
+        "socket/**/*",
         "src/**/*",
         "**/*.ts",
         "**/*.ejs",

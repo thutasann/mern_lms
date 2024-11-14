@@ -31,5 +31,9 @@ declare namespace NodeJS {
 		SMTP_SERVICE: string;
 		SMTP_MAIL: string;
 		SMTP_PASSWORD: string;
+
+		// Socket
+		SOCKET_PORT: number;
+		CLIENT_URL: string;
 	}
 }
