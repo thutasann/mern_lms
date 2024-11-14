@@ -6,7 +6,6 @@ import {
 	CreateUserRequest,
 	LoginRequest,
 	SocialAuthRequest,
-	UserUpdateRequest,
 } from '../core/dto/user.dto';
 import { IUser } from '../core/types/user.type';
 import { RequestValidator } from '../core/utils/error/request-validator';
@@ -29,7 +28,6 @@ class UserControllers {
 		this.loginUser = this.loginUser.bind(this);
 		this.getUserById = this.getUserById.bind(this);
 		this.socialAuth = this.socialAuth.bind(this);
-		this.updateUser = this.updateUser.bind(this);
 	}
 
 	@catchAsyncErrors()
@@ -308,28 +306,6 @@ class UserControllers {
 					statusCode: 500,
 					message: error,
 					devMessage: `social auth failed`,
-					body: { error },
-				}),
-			);
-		}
-	}
-
-	@catchAsyncErrors()
-	public async updateUser(req: Request, res: Response | any) {
-		try {
-			const { name, email } = req.body as UserUpdateRequest;
-			const userId = req?.user?._id;
-			const updatedUser = await userService.updateUserInfo(
-				{ name, email },
-				userId as string,
-			);
-			return res.status(201).json(updatedUser);
-		} catch (error) {
-			return res.status(500).json(
-				Responer({
-					statusCode: 500,
-					message: error,
-					devMessage: `User update Failed`,
 					body: { error },
 				}),
 			);

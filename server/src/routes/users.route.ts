@@ -1,4 +1,5 @@
 import express from 'express';
+import { userCRUDController } from '../controllers/users-crud.controller';
 import { userController } from '../controllers/users.controller';
 import { isAuthenticated } from '../core/middlewares/auth.middleware';
 
@@ -16,6 +17,6 @@ userRouter.post(
 	userController.updateAccessToken,
 );
 userRouter.get('/users/get', isAuthenticated, userController.getUserById);
-userRouter.put('/users/update', isAuthenticated, userController.updateUser);
+userRouter.put('/users/update', isAuthenticated, userCRUDController.updateUser);
 
 export default userRouter;

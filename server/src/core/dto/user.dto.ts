@@ -71,3 +71,14 @@ export class UserUpdateRequest {
 	@IsEmail({}, { message: 'Please provide a valid email address' })
 	email: string;
 }
+
+/** User Password Update Request */
+export class UserPasswordUpdateRequest {
+	@IsString({ message: 'Old Password must be a string' })
+	@MinLength(8, { message: 'Old Password must be at least 8 characters long' })
+	oldPassword: string;
+
+	@IsString({ message: 'New Password must be a string' })
+	@MinLength(8, { message: 'New Password must be at least 8 characters long' })
+	newPassword: string;
+}
