@@ -40,6 +40,12 @@ node -e "console.log(require('v8').getHeapStatistics().heap_size_limit / 1024 / 
 
 ```bash
 export NODE_OPTIONS="--max-old-space-size=256"
+
+4095 MB
+2048 MB (2 GB)
+1024 MB (1 GB)
+512 MB
+256 MB
 ```
 
 ```bash

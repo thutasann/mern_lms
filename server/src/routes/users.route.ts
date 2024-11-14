@@ -18,5 +18,10 @@ userRouter.post(
 );
 userRouter.get('/users/get', isAuthenticated, userController.getUserById);
 userRouter.put('/users/update', isAuthenticated, userCRUDController.updateUser);
+userRouter.put(
+	'/users/update-password',
+	isAuthenticated,
+	userCRUDController.updateUserPasasword,
+);
 
 export default userRouter;

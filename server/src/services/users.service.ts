@@ -6,11 +6,16 @@ import {
 	CreateUserRequest,
 	LoginRequest,
 	SocialAuthRequest,
+	UserPasswordUpdateRequest,
 	UserUpdateRequest,
 } from '../core/dto/user.dto';
 import userModel from '../core/models/user.model';
 import { IUser } from '../core/types/user.type';
-import { APIError, BadRequestError } from '../core/utils/error/errors';
+import {
+	APIError,
+	BadRequestError,
+	NotFoundError,
+} from '../core/utils/error/errors';
 import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from './email.service';
@@ -201,6 +206,42 @@ export class UserService {
 			});
 		} catch (error) {
 			throw new APIError(`Error updating user information: ${error}`);
+		}
+	}
+
+	/** Update user password */
+	async updateUserPassword(body: UserPasswordUpdateRequest, _id: string) {
+		try {
+			const { oldPassword, newPassword } = body;
+
+			const user = await userModel
+				.findOne({
+					_id: new mongoose.Types.ObjectId(_id),
+				})
+				.select('+password');
+
+			if (!user) {
+				throw new NotFoundError(`User not found to update password`);
+			}
+
+			const isPasswordMatch = await user.comparePassword(oldPassword);
+			if (!isPasswordMatch) {
+				throw new BadRequestError(`Invalid old password`);
+			}
+
+			user.password = newPassword;
+
+			await user.save();
+			await redis.set(_id, JSON.stringify(user));
+
+			return Responer({
+				statusCode: 200,
+				devMessage: 'Password updated successfully',
+				message: 'User password updated successfully',
+				body: { user },
+			});
+		} catch (error) {
+			throw new APIError(`Error updating user password: ${error}`);
 		}
 	}
 }

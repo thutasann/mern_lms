@@ -135,7 +135,7 @@ class UserControllers {
 					statusCode: 500,
 					message: error,
 					devMessage: `Something went wrong in Loggin User`,
-					body: {},
+					body: { error: error.message },
 				}),
 			);
 		}

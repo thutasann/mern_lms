@@ -5,6 +5,7 @@ import {
 	UserUpdateRequest,
 } from '../core/dto/user.dto';
 import { RequestValidator } from '../core/utils/error/request-validator';
+import { logger } from '../core/utils/logger';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from '../services/email.service';
 import { JwtService } from '../services/jwt.service';
@@ -14,6 +15,7 @@ import { UserService } from '../services/users.service';
 class UserCRUDControllers {
 	constructor(private readonly userService: UserService) {
 		this.updateUser = this.updateUser.bind(this);
+		this.updateUserPasasword = this.updateUserPasasword.bind(this);
 	}
 
 	@catchAsyncErrors()
@@ -44,6 +46,45 @@ class UserCRUDControllers {
 			UserPasswordUpdateRequest,
 			req.body,
 		);
+
+		if (errors) {
+			return res.status(400).json(
+				Responer({
+					statusCode: 400,
+					message: errors as string,
+					devMessage: 'Your Request is invalid',
+					body: {},
+				}),
+			);
+		}
+
+		try {
+			const _id = req?.user?._id as string;
+
+			if (!_id) {
+				return res.status(403).json(
+					Responer({
+						statusCode: 403,
+						message: 'Unauthorized',
+						devMessage: 'Please login first to update password',
+						body: {},
+					}),
+				);
+			}
+
+			const result = await this.userService.updateUserPassword(input, _id);
+			return res.status(201).json(result);
+		} catch (error: any) {
+			logger.error(`Errors at Update Password user: ${error.message}`);
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in Update Password User`,
+					body: { error: error.message },
+				}),
+			);
+		}
 	}
 }
 
