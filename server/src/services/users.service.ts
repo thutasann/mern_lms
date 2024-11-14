@@ -6,10 +6,12 @@ import {
 	CreateUserRequest,
 	LoginRequest,
 	SocialAuthRequest,
+	UserUpdateRequest,
 } from '../core/dto/user.dto';
 import userModel from '../core/models/user.model';
 import { IUser } from '../core/types/user.type';
 import { APIError, BadRequestError } from '../core/utils/error/errors';
+import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from './email.service';
 import { JwtService } from './jwt.service';
@@ -102,7 +104,6 @@ export class UserService {
 	/** login user */
 	async loginUser(body: LoginRequest, res: Response) {
 		try {
-			console.log('body', body);
 			const { email, password } = body;
 
 			const user = await userModel.findOne({ email }).select('+password');
@@ -154,7 +155,52 @@ export class UserService {
 				await this._jwtService.sendToken(user, 200, res);
 			}
 		} catch (error) {
-			throw new APIError(`Error in social auth : %{error}`);
+			throw new APIError(`Error in social auth : ${error}`);
+		}
+	}
+
+	/** Update user info */
+	async updateUserInfo(body: UserUpdateRequest, _id: string) {
+		try {
+			const { name, email } = body;
+			const userId = new mongoose.Types.ObjectId(_id);
+
+			const user = await userModel.findById(userId);
+			if (!user) {
+				return Responer({
+					statusCode: 404,
+					devMessage: 'User not found',
+					message: 'User not found',
+					body: {},
+				});
+			}
+
+			if (email && email !== user.email) {
+				const isEmailExist = await userModel.exists({ email });
+				if (isEmailExist) {
+					return Responer({
+						statusCode: 409,
+						devMessage: 'Email already exists',
+						message: 'Email already exists',
+						body: {},
+					});
+				}
+				user.email = email;
+			}
+
+			if (name) user.name = name;
+
+			await user.save();
+			await redis.set(_id, JSON.stringify(user));
+
+			return Responer({
+				statusCode: 200,
+				devMessage: 'User information updated successfully',
+				message: 'User information updated successfully',
+				body: { user },
+			});
+		} catch (error) {
+			throw new APIError(`Error updating user information: ${error}`);
 		}
 	}
 }

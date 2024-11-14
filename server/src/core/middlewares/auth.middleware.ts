@@ -76,6 +76,7 @@ export const isAuthenticated = async (
 
 		try {
 			req.user = JSON.parse(user);
+			logger.info(`:: Auth Middleware --> ${req?.user?.email} ::`);
 		} catch (error: any) {
 			logger.error(`Failed to parse user data: ${error.message}`);
 			return next(new Error('Invalid user data format'));

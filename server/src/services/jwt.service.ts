@@ -79,13 +79,16 @@ export class JwtService {
 
 		logger.info(`send token successful ${user.email}`);
 
+		const userObj = user.toObject();
+		delete userObj?.password;
+
 		res.status(statusCode).json(
 			Responer({
 				statusCode,
 				devMessage: 'AccessToken',
 				message: `Sent token successfully`,
 				body: {
-					user,
+					userObj,
 					accessToken,
 				},
 			}),

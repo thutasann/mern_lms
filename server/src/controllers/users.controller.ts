@@ -6,6 +6,7 @@ import {
 	CreateUserRequest,
 	LoginRequest,
 	SocialAuthRequest,
+	UserUpdateRequest,
 } from '../core/dto/user.dto';
 import { IUser } from '../core/types/user.type';
 import { RequestValidator } from '../core/utils/error/request-validator';
@@ -28,6 +29,7 @@ class UserControllers {
 		this.loginUser = this.loginUser.bind(this);
 		this.getUserById = this.getUserById.bind(this);
 		this.socialAuth = this.socialAuth.bind(this);
+		this.updateUser = this.updateUser.bind(this);
 	}
 
 	@catchAsyncErrors()
@@ -223,6 +225,7 @@ class UserControllers {
 			}
 
 			const user = JSON.parse(session) as IUser;
+
 			logger.info(
 				`User from redis session for refresh_token :: ${user?.email}`,
 			);
@@ -238,6 +241,8 @@ class UserControllers {
 				process.env.REFRESH_TOKEN as string,
 				{ expiresIn: '3d' },
 			);
+
+			req.user = user;
 
 			res.cookie('access_token', accessToken, accessTokenOptions);
 			res.cookie('refresh_token', refreshToken, refreshTokenOptions);
@@ -272,14 +277,7 @@ class UserControllers {
 	) {
 		try {
 			const user = await this.userService.getUserById(req?.user?._id as string);
-			return res.status(200).json(
-				Responer({
-					statusCode: 200,
-					devMessage: 'Social Auth success',
-					message: 'Social Auth successfully',
-					body: {},
-				}),
-			);
+			return res.status(200).json(user);
 		} catch (error) {
 			return res.status(500).json(
 				Responer({
@@ -310,6 +308,28 @@ class UserControllers {
 					statusCode: 500,
 					message: error,
 					devMessage: `social auth failed`,
+					body: { error },
+				}),
+			);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async updateUser(req: Request, res: Response | any) {
+		try {
+			const { name, email } = req.body as UserUpdateRequest;
+			const userId = req?.user?._id;
+			const updatedUser = await userService.updateUserInfo(
+				{ name, email },
+				userId as string,
+			);
+			return res.status(201).json(updatedUser);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `User update Failed`,
 					body: { error },
 				}),
 			);

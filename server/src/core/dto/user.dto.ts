@@ -62,3 +62,12 @@ export class SocialAuthRequest {
 	@IsString({ message: 'Avatar must be a string' })
 	avatar: string;
 }
+
+/** User Update Request */
+export class UserUpdateRequest {
+	@IsString({ message: 'name must be a string' })
+	name: string;
+
+	@IsEmail({}, { message: 'Please provide a valid email address' })
+	email: string;
+}
