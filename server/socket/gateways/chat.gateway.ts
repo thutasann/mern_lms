@@ -37,7 +37,7 @@ export const setupChatGateway = (
 
 				socket.on('chat:send_message', async (data) => {
 					const message = await chatService.handleMessage(data);
-					io.to(data.roomId).emit('chat:receive_message', message);
+					socket.emit('chat:receive_message', message);
 				});
 
 				socket.on('chat:join_room', (roomId: string) => {

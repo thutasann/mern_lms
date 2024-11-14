@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Socket.IO Test</title>
+		<script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+
+		<style>
+			body {
+				background-color: #000;
+			}
+			p {
+				color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container"></div>
+
+		<script>
+			const socket = io('http://localhost:9000', {
+				transports: ['websocket'],
+			});
+
+			socket.on('connect', () => {
+				console.log('Connected!');
+				socket.emit('chat:send_message', 'Hello from client');
+			});
+
+			socket.on('chat:receive_message', (data) => {
+				console.log('Received message:', data);
+				const container = document.getElementById('container');
+				container.innerHTML += `<p>${JSON.stringify(data)}</p>`;
+			});
+
+			socket.on('connect_error', (error) => {
+				console.log('Connection error:', error);
+			});
+		</script>
+	</body>
+</html>

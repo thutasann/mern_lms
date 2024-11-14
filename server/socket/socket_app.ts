@@ -2,7 +2,6 @@ import { createAdapter } from '@socket.io/redis-adapter';
 import { Emitter } from '@socket.io/redis-emitter';
 import { createClient } from 'redis';
 import { Server } from 'socket.io';
-import { SOCKET_CONFIG } from '../src/core/configs/socket.config';
 import { setupChatGateway } from './gateways/chat.gateway';
 
 /**
@@ -15,8 +14,13 @@ export const createSocketServer = async (): Promise<{
 }> => {
 	/** Create socket.io server */
 	const io = new Server({
-		cors: SOCKET_CONFIG.CORS,
-		path: SOCKET_CONFIG.PATH,
+		cors: {
+			origin: '*',
+			methods: ['GET', 'POST'],
+			allowedHeaders: ['*'],
+			credentials: true,
+		},
+		path: '/socket.io/',
 		transports: ['websocket'],
 		pingTimeout: 60000,
 		pingInterval: 30000,
