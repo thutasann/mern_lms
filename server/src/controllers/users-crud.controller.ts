@@ -1,6 +1,10 @@
 import type { Request, Response } from 'express';
 import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
-import { UserUpdateRequest } from '../core/dto/user.dto';
+import {
+	UserPasswordUpdateRequest,
+	UserUpdateRequest,
+} from '../core/dto/user.dto';
+import { RequestValidator } from '../core/utils/error/request-validator';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from '../services/email.service';
 import { JwtService } from '../services/jwt.service';
@@ -32,6 +36,14 @@ class UserCRUDControllers {
 				}),
 			);
 		}
+	}
+
+	@catchAsyncErrors()
+	public async updateUserPasasword(req: Request, res: Response | any) {
+		const { errors, input } = await RequestValidator(
+			UserPasswordUpdateRequest,
+			req.body,
+		);
 	}
 }
 
