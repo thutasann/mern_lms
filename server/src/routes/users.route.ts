@@ -23,5 +23,10 @@ userRouter.put(
 	isAuthenticated,
 	userCRUDController.updateUserPasasword,
 );
+userRouter.put(
+	'/users/update-picture',
+	isAuthenticated,
+	userCRUDController.updateProfilePicture,
+);
 
 export default userRouter;

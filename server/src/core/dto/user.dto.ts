@@ -82,3 +82,18 @@ export class UserPasswordUpdateRequest {
 	@MinLength(8, { message: 'New Password must be at least 8 characters long' })
 	newPassword: string;
 }
+
+/** Avatar */
+export class Avatar {
+	@IsString({ message: 'public_id must be a string' })
+	public_id: string;
+
+	@IsString({ message: 'url must be a string' })
+	url: string;
+}
+
+/** Update Profile Picture Update Request */
+export class UpdateProfilePictureRequest {
+	@IsString()
+	avatar: string;
+}

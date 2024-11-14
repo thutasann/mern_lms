@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
 import {
+	UpdateProfilePictureRequest,
 	UserPasswordUpdateRequest,
 	UserUpdateRequest,
 } from '../core/dto/user.dto';
@@ -16,6 +17,7 @@ class UserCRUDControllers {
 	constructor(private readonly userService: UserService) {
 		this.updateUser = this.updateUser.bind(this);
 		this.updateUserPasasword = this.updateUserPasasword.bind(this);
+		this.updateProfilePicture = this.updateProfilePicture.bind(this);
 	}
 
 	@catchAsyncErrors()
@@ -81,6 +83,56 @@ class UserCRUDControllers {
 					statusCode: 500,
 					message: error,
 					devMessage: `Something went wrong in Update Password User`,
+					body: { error: error.message },
+				}),
+			);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async updateProfilePicture(req: Request, res: Response | any) {
+		const { errors, input } = await RequestValidator(
+			UpdateProfilePictureRequest,
+			req.body,
+		);
+
+		if (errors) {
+			return res.status(400).json(
+				Responer({
+					statusCode: 400,
+					message: errors as string,
+					devMessage: 'Your Request is invalid',
+					body: {},
+				}),
+			);
+		}
+
+		try {
+			const _id = req?.user?._id as string;
+
+			if (!_id) {
+				return res.status(403).json(
+					Responer({
+						statusCode: 403,
+						message: 'Unauthorized',
+						devMessage: 'Please login first to update password',
+						body: {},
+					}),
+				);
+			}
+
+			const result = await this.userService.updateUserProfilePicture(
+				input,
+				_id,
+			);
+			return res.status(201).json(result);
+		} catch (error: any) {
+			logger.error(`Errors at Update Profile Picture : ${error.message}`);
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in Update User Profile Picture`,
 					body: { error: error.message },
 				}),
 			);

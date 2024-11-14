@@ -1,3 +1,4 @@
+import cloudinary from 'cloudinary';
 import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
@@ -6,6 +7,7 @@ import {
 	CreateUserRequest,
 	LoginRequest,
 	SocialAuthRequest,
+	UpdateProfilePictureRequest,
 	UserPasswordUpdateRequest,
 	UserUpdateRequest,
 } from '../core/dto/user.dto';
@@ -16,6 +18,7 @@ import {
 	BadRequestError,
 	NotFoundError,
 } from '../core/utils/error/errors';
+import { logger } from '../core/utils/logger';
 import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from './email.service';
@@ -243,5 +246,80 @@ export class UserService {
 		} catch (error) {
 			throw new APIError(`Error updating user password: ${error}`);
 		}
+	}
+
+	/** Update user profile */
+	async updateUserProfilePicture(
+		body: UpdateProfilePictureRequest,
+		_id: string,
+	) {
+		try {
+			const { avatar } = body;
+
+			const user = await userModel
+				.findOne({
+					_id: new mongoose.Types.ObjectId(_id),
+				})
+				.select('+password');
+
+			if (!user) {
+				throw new NotFoundError(`User not found to update profile picture`);
+			}
+
+			const public_id = user?.avatar?.public_id;
+
+			if (public_id) {
+				const myCloud = await this.cloudinaryUpload(public_id, avatar);
+				user.avatar = {
+					public_id: myCloud.public_id,
+					url: myCloud.url,
+				};
+			} else {
+				const myCloud = await this.cloudinaryUpload(undefined, avatar);
+				user.avatar = {
+					public_id: myCloud.public_id,
+					url: myCloud.url,
+				};
+			}
+
+			await user.save();
+			await redis.set(_id, JSON.stringify(user));
+
+			return Responer({
+				statusCode: 200,
+				devMessage: 'Profile Picture updated successfully',
+				message: 'User profile picture updated successfully',
+				body: { user },
+			});
+		} catch (error: any) {
+			throw new APIError(`Error updating user profile: ${error.message}`);
+		}
+	}
+
+	/** cloudinary upload */
+	private async cloudinaryUpload(
+		public_id: string | undefined,
+		avatar: string,
+	) {
+		if (public_id) {
+			await cloudinary.v2.uploader.destroy(public_id);
+		}
+
+		const myCloud = await cloudinary.v2.uploader.upload(
+			avatar,
+			{
+				folder: 'avatars',
+			},
+			(err, result) => {
+				if (err) {
+					logger.error(`:: Cloudinary Avatar upload error :: ${err}`);
+					throw new APIError(`Cloudinary Error: ${err}`);
+				}
+				if (result) {
+					logger.info(`:: Cloudinary Avatar upload success ::`);
+				}
+			},
+		);
+		return myCloud;
 	}
 }

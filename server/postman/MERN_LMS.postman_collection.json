@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Thuta sann\",\n    \"email\": \"thutasann2002@gmail.com\",\n    \"password\": \"thutasann2002@TTS\"\n}",
+							"raw": "{\n    \"name\": \"Test user one\",\n    \"email\": \"nerihew543@anypng.com\",\n    \"password\": \"thutasann2002@TTS\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -41,13 +41,44 @@
 					"response": []
 				},
 				{
+					"name": "user social auth",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Hsu ye ywel\",\n    \"email\": \"hsuyeywel@gmail.com\",\n    \"password\": \"thutasann2002@TTS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/users/social",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"social"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "user login",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"thutasann2002@gmail.com\",\n    \"password\": \"thutasann2002@TTS\"\n}",
+							"raw": "{\n    \"email\": \"thutasann2002@gmail.com\",\n    \"password\": \"thutasann2003@TTS\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -137,6 +168,99 @@
 					"response": []
 				},
 				{
+					"name": "user update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Thuta sann updated\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/users/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user update profile",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"avatar\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAANCSURBVEiJtZZPbBtFFMZ/M7ubXdtdb1xSFyeilBapySVU8h8OoFaooFSqiihIVIpQBKci6KEg9Q6H9kovIHoCIVQJJCKE1ENFjnAgcaSGC6rEnxBwA04Tx43t2FnvDAfjkNibxgHxnWb2e/u992bee7tCa00YFsffekFY+nUzFtjW0LrvjRXrCDIAaPLlW0nHL0SsZtVoaF98mLrx3pdhOqLtYPHChahZcYYO7KvPFxvRl5XPp1sN3adWiD1ZAqD6XYK1b/dvE5IWryTt2udLFedwc1+9kLp+vbbpoDh+6TklxBeAi9TL0taeWpdmZzQDry0AcO+jQ12RyohqqoYoo8RDwJrU+qXkjWtfi8Xxt58BdQuwQs9qC/afLwCw8tnQbqYAPsgxE1S6F3EAIXux2oQFKm0ihMsOF71dHYx+f3NND68ghCu1YIoePPQN1pGRABkJ6Bus96CutRZMydTl+TvuiRW1m3n0eDl0vRPcEysqdXn+jsQPsrHMquGeXEaY4Yk4wxWcY5V/9scqOMOVUFthatyTy8QyqwZ+kDURKoMWxNKr2EeqVKcTNOajqKoBgOE28U4tdQl5p5bwCw7BWquaZSzAPlwjlithJtp3pTImSqQRrb2Z8PHGigD4RZuNX6JYj6wj7O4TFLbCO/Mn/m8R+h6rYSUb3ekokRY6f/YukArN979jcW+V/S8g0eT/N3VN3kTqWbQ428m9/8k0P/1aIhF36PccEl6EhOcAUCrXKZXXWS3XKd2vc/TRBG9O5ELC17MmWubD2nKhUKZa26Ba2+D3P+4/MNCFwg59oWVeYhkzgN/JDR8deKBoD7Y+ljEjGZ0sosXVTvbc6RHirr2reNy1OXd6pJsQ+gqjk8VWFYmHrwBzW/n+uMPFiRwHB2I7ih8ciHFxIkd/3Omk5tCDV1t+2nNu5sxxpDFNx+huNhVT3/zMDz8usXC3ddaHBj1GHj/As08fwTS7Kt1HBTmyN29vdwAw+/wbwLVOJ3uAD1wi/dUH7Qei66PfyuRj4Ik9is+hglfbkbfR3cnZm7chlUWLdwmprtCohX4HUtlOcQjLYCu+fzGJH2QRKvP3UNz8bWk1qMxjGTOMThZ3kvgLI5AzFfo379UAAAAASUVORK5CYII=\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/users/update-picture",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update-picture"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user update password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldPassword\": \"thutasann2002@TTS\",\n    \"newPassword\": \"thutasann2003@TTS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/users/update-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "refresh token",
 					"request": {
 						"method": "POST",
@@ -174,7 +298,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"activation_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJUaHV0YSBzYW5uIiwiZW1haWwiOiJ0aHV0YXNhbm4yMDAyQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoidGh1dGFzYW5uMjAwMkBUVFMifSwiYWN0aXZhdGlvbkNvZGUiOiI2OTQ0IiwiaWF0IjoxNzMxMjMyMDY0LCJleHAiOjE3MzEyMzIzNjR9.1Pl6M1_iyqH1HsXF3S0YdUK8BP6Xj9V6cpEefpgqiKo\",\n    \"activation_code\": \"6944\"\n}",
+							"raw": "{\n    \"activation_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJUZXN0IHVzZXIgb25lIiwiZW1haWwiOiJuZXJpaGV3NTQzQGFueXBuZy5jb20iLCJwYXNzd29yZCI6InRodXRhc2FubjIwMDJAVFRTIn0sImFjdGl2YXRpb25Db2RlIjoiMjI5MyIsImlhdCI6MTczMTUwOTM3NywiZXhwIjoxNzMxNTA5Njc3fQ.sQUYu8GGuATb3WXWLh-EQZz9Dr-lL8M2FCc8b2RntLo\",\n    \"activation_code\": \"2293\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

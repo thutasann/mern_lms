@@ -88,7 +88,7 @@ export class JwtService {
 				devMessage: 'AccessToken',
 				message: `Sent token successfully`,
 				body: {
-					userObj,
+					user: userObj,
 					accessToken,
 				},
 			}),
