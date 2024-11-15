@@ -8,4 +8,5 @@ export const ChatEvents = {
 	LEAVE_ROOM: 'chat:leave_room',
 	TYPING: 'chat:typing',
 	TYPING_STOP: 'chat:typing_stop',
+	USER_ACTIVE: 'User:Active',
 } as const;

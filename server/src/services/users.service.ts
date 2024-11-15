@@ -23,13 +23,18 @@ import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from './email.service';
 import { JwtService } from './jwt.service';
+import { SocketClientService } from './socket-client.service';
 
 /** User Service */
 export class UserService {
+	private socketService: SocketClientService;
+
 	constructor(
 		private readonly _jwtService: JwtService,
 		private readonly _emailService: EmailService,
-	) {}
+	) {
+		this.socketService = SocketClientService.getInstance();
+	}
 
 	/** create user */
 	async createUser(body: CreateUserRequest) {
@@ -125,6 +130,12 @@ export class UserService {
 			if (!isPasswordMatch) {
 				throw new BadRequestError('Invalid password');
 			}
+
+			this.socketService.emit('User:Active', {
+				userId: user._id,
+				email: user.email,
+				timestamp: new Date(),
+			});
 
 			await this._jwtService.sendToken(user, 200, res);
 		} catch (error) {

@@ -21,7 +21,7 @@ export const createSocketServer = async (): Promise<{
 			credentials: true,
 		},
 		path: '/socket.io/',
-		transports: ['websocket'],
+		transports: ['websocket', 'polling'],
 		pingTimeout: 60000,
 		pingInterval: 30000,
 		upgradeTimeout: 30000,

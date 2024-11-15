@@ -1,4 +1,5 @@
 import { Server, Socket } from 'socket.io';
+import { IUser } from '../../src/core/types/user.type';
 import { logger } from '../../src/core/utils/logger';
 import { ChatService } from '../services/chat.service';
 import {
@@ -38,6 +39,10 @@ export const setupChatGateway = (
 				socket.on('chat:send_message', async (data) => {
 					const message = await chatService.handleMessage(data);
 					socket.emit('chat:receive_message', message);
+				});
+
+				socket.on('User:Active', (user: IUser) => {
+					logger.info(`User ${user.email} is active`);
 				});
 
 				socket.on('chat:join_room', (roomId: string) => {

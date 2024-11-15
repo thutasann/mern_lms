@@ -1,3 +1,4 @@
+import { IUser } from '../../src/core/types/user.type';
 import { ChatEvents } from '../events/chat.events';
 
 /**
@@ -18,6 +19,7 @@ export interface ClientToServerEvents {
 		[key: string]: any;
 	}) => void;
 	[ChatEvents.JOIN_ROOM]: (roomId: string) => void;
+	[ChatEvents.USER_ACTIVE]: (user: IUser) => void;
 }
 
 /**

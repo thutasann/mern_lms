@@ -35,5 +35,6 @@ declare namespace NodeJS {
 		// Socket
 		SOCKET_PORT: number;
 		CLIENT_URL: string;
+		SOCKET_SERVER_URL: string;
 	}
 }
