@@ -78,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"thutasann2002@gmail.com\",\n    \"password\": \"thutasann2003@TTS\"\n}",
+							"raw": "{\n    \"email\": \"thutasann2002@gmail.com\",\n    \"password\": \"test@123TS\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -236,7 +236,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"oldPassword\": \"thutasann2002@TTS\",\n    \"newPassword\": \"thutasann2003@TTS\"\n}",
+							"raw": "{\n    \"oldPassword\": \"test@123TS\",\n    \"newPassword\": \"test@123TS\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -317,6 +317,42 @@
 								"v1",
 								"users",
 								"activate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "courses",
+			"item": [
+				{
+					"name": "course create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Complete Web Development Bootcamp\",\n    \"description\": \"Learn full-stack web development from scratch\",\n    \"price\": 499,\n    \"estimatedPrice\": 999,\n    \"tags\": \"web development, javascript, react, node.js\",\n    \"level\": \"Beginner\",\n    \"demoUrl\": \"https://example.com/course-demo\",\n    \"benefits\": [\n        {\n            \"title\": \"Build 10+ real-world projects\"\n        },\n        {\n            \"title\": \"Learn modern web technologies\"\n        }\n    ],\n    \"prerequisites\": [\n        {\n            \"title\": \"Basic computer knowledge\"\n        },\n        {\n            \"title\": \"Basic understanding of HTML/CSS\"\n        }\n    ],\n    \"courseData\": [\n        {\n            \"videoUrl\": \"https://example.com/video1\",\n            \"title\": \"Introduction to Web Development\",\n            \"videoSection\": \"Getting Started\",\n            \"description\": \"Overview of the course curriculum\",\n            \"videoLength\": 12,\n            \"links\": [\n                {\n                    \"title\": \"Course Resources\",\n                    \"url\": \"https://example.com/resources\"\n                },\n                {\n                    \"title\": \"Source Code\",\n                    \"url\": \"https://github.com/example/repo\"\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/courses/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"courses",
+								"create"
 							]
 						}
 					},

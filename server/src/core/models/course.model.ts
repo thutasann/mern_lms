@@ -63,11 +63,9 @@ const courseSchema = new Schema<ICourse>({
 	},
 	thumbnail: {
 		public_id: {
-			required: true,
 			type: String,
 		},
 		url: {
-			required: true,
 			type: String,
 		},
 	},

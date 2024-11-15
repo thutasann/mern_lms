@@ -7,6 +7,7 @@ import path from 'path';
 import { handleErrorWithLogger } from './core/middlewares/errors.middleware';
 import { MAINSERVER_PREFIX } from './core/utils/constants';
 import { limiter, shouldCompress } from './core/utils/middleware-utils';
+import courseRouter from './routes/courses.route';
 import mainRouter from './routes/main.route';
 import userRouter from './routes/users.route';
 
@@ -36,6 +37,7 @@ app.use(
 // Routers
 app.use(MAINSERVER_PREFIX, mainRouter);
 app.use(MAINSERVER_PREFIX, userRouter);
+app.use(MAINSERVER_PREFIX, courseRouter);
 
 app.all('*', (req, res) => {
 	const not_found_path = path.join(
