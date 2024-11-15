@@ -1,4 +1,4 @@
-import { logger } from '../../src/core/utils/logger';
+import { logger } from '../../core/utils/logger';
 
 export class ChatService {
 	async handleMessage(data: any) {

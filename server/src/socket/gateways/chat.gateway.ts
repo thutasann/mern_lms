@@ -1,6 +1,6 @@
 import { Server, Socket } from 'socket.io';
-import { IUser } from '../../src/core/types/user.type';
-import { logger } from '../../src/core/utils/logger';
+import { IUser } from '../../core/types/user.type';
+import { logger } from '../../core/utils/logger';
 import { ChatService } from '../services/chat.service';
 import {
 	ClientToServerEvents,

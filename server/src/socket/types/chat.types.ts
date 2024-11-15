@@ -1,4 +1,4 @@
-import { IUser } from '../../src/core/types/user.type';
+import { IUser } from '../../core/types/user.type';
 import { ChatEvents } from '../events/chat.events';
 
 /**

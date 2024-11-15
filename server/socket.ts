@@ -1,10 +1,10 @@
 import { v2 as cloudinary } from 'cloudinary';
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
-import { createSocketServer } from './socket/socket_app';
 import { SOCKET_CONFIG } from './src/core/configs/socket.config';
 import { connectDB } from './src/core/utils/db';
 import { logger } from './src/core/utils/logger';
+import { createSocketServer } from './src/socket/socket_app';
 
 let io: Server;
 const PORT = Number(SOCKET_CONFIG.PORT);
