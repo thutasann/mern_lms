@@ -22,7 +22,7 @@ export class SocketClientService {
 
 	private setupSocketListeners() {
 		this.socket.on('connect', () => {
-			logger.info('Connected to socket server 🚀');
+			logger.info('Connected to socket server 🔌');
 		});
 
 		this.socket.on('connect_error', (error) => {

@@ -9,12 +9,11 @@ import { responseTimeMiddleware } from '../core/middlewares/response-time.middle
 /** courses router */
 const courseRouter = express.Router();
 
-courseRouter.post(
-	'/courses/create',
-	isAuthenticated,
-	authorizeRole('admin'),
-	responseTimeMiddleware,
-	courseController.uploadCourse,
-);
+courseRouter.use(isAuthenticated);
+courseRouter.use(authorizeRole('admin'));
+courseRouter.use(responseTimeMiddleware);
+
+courseRouter.post('/courses/create', courseController.uploadCourse);
+courseRouter.put('/courses/edit/:id', courseController.editCourse);
 
 export default courseRouter;
