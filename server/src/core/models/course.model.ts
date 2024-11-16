@@ -26,8 +26,8 @@ const linkSchema = new Schema<ILink>({
 /** Comment Schema */
 const commentSchema = new Schema<IComment>({
 	user: Object,
-	comment: String,
-	commentReplies: [Object],
+	question: String,
+	questionReplies: [Object],
 });
 
 /** Course Data Schema */

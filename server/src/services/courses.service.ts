@@ -2,7 +2,10 @@ import cloudinary from 'cloudinary';
 import mongoose from 'mongoose';
 import { CACHE_TTL } from '../core/configs/cache.config';
 import { CreateCourseRequest } from '../core/dto/course.dto';
+import { AddQuestionDataRequest } from '../core/dto/question.dto';
 import courseModel from '../core/models/course.model';
+import { IComment } from '../core/types/course.type';
+import { IUser } from '../core/types/user.type';
 import { APIError } from '../core/utils/error/errors';
 import { logger } from '../core/utils/logger';
 import redis from '../core/utils/redis';
@@ -148,6 +151,77 @@ export class CoursesService {
 			});
 		} catch (error) {
 			throw new APIError(`Error in getting course by user : ${error}`);
+		}
+	}
+
+	/** add question */
+	public async addQuestion(
+		user: IUser,
+		body: AddQuestionDataRequest,
+		res: Response | any,
+	) {
+		try {
+			const { question, courseId, contentId } = body;
+			const courseObjectId = new mongoose.Types.ObjectId(courseId);
+			const contentObjectId = new mongoose.Types.ObjectId(contentId);
+
+			const course = await courseModel.findById(courseObjectId);
+
+			if (!course) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'course not found',
+						message: `course not found`,
+						body: {},
+					}),
+				);
+			}
+
+			const courseContent = course?.courseData?.find((item) =>
+				(item._id as any).equals(contentObjectId),
+			);
+
+			if (!courseContent) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'invalid content id',
+						message: `content id not found`,
+						body: {},
+					}),
+				);
+			}
+
+			const newQuestion: Partial<IComment> = {
+				user,
+				question,
+				questionReplies: [],
+			};
+
+			courseContent.questions.push(newQuestion as IComment);
+
+			await course?.save();
+
+			return res.status(201).json(
+				Responer({
+					statusCode: 201,
+					devMessage: 'added question success',
+					message: `aded question successfully`,
+					body: {
+						course,
+					},
+				}),
+			);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					devMessage: 'cannot add question',
+					message: `something went wrong at adding question`,
+					body: { error },
+				}),
+			);
 		}
 	}
 

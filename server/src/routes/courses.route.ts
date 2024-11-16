@@ -21,5 +21,10 @@ courseRouter.get(
 	'/courses/get-course-content/:id',
 	courseController.getCourseByUser,
 );
+courseRouter.put(
+	'/courses/add-question',
+	isAuthenticated,
+	courseController.addQuestion,
+);
 
 export default courseRouter;

@@ -3,8 +3,8 @@ import { IUser } from './user.type';
 
 export interface IComment extends Document {
 	user: Partial<IUser>;
-	comment: string;
-	commentReplies: IComment[];
+	question: string;
+	questionReplies: IComment[];
 }
 
 export interface IReview extends Document {
