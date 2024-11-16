@@ -1,6 +1,6 @@
 import { Redis } from 'ioredis';
-import { logger } from '../logger';
 import { APIError } from '../error/errors';
+import { logger } from '../logger';
 
 /** Redis Client @internal */
 const redisClient = (): string => {
@@ -23,7 +23,7 @@ redis.on('connect', () => {
 });
 
 redis.on('ready', () => {
-	logger.info('Redis is ready to accept commands');
+	logger.info('Redis is ready to accept commands 🧰');
 });
 
 redis.on('close', () => {

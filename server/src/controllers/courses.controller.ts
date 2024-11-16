@@ -12,8 +12,10 @@ class CoursesController {
 		this.uploadCourse = this.uploadCourse.bind(this);
 		this.editCourse = this.editCourse.bind(this);
 		this.getSingleCourse = this.getSingleCourse.bind(this);
+		this.getAllCourses = this.getAllCourses.bind(this);
 	}
 
+	/** upload/create course */
 	@catchAsyncErrors()
 	public async uploadCourse(req: Request, res: Response | any) {
 		const { errors, input } = await RequestValidator(
@@ -63,6 +65,7 @@ class CoursesController {
 		}
 	}
 
+	/** edit course */
 	@catchAsyncErrors()
 	public async editCourse(req: Request, res: Response | any) {
 		const { errors, input } = await RequestValidator(
@@ -116,8 +119,44 @@ class CoursesController {
 		}
 	}
 
+	/** get single course without purchasing */
 	@catchAsyncErrors()
-	public async getSingleCourse(req: Request, res: Response | any) {}
+	public async getSingleCourse(req: Request, res: Response | any) {
+		try {
+			const _id = req.params.id;
+			const result = await this._courseService.getSingleCourse(_id);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			logger.error(`Errors at Get single course : ${error.message}`);
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in get single Course`,
+					body: { error: error.message },
+				}),
+			);
+		}
+	}
+
+	/** get all courses without purchasing */
+	@catchAsyncErrors()
+	public async getAllCourses(req: Request, res: Response | any) {
+		try {
+			const result = await this._courseService.getAllCourses();
+			return res.status(200).json(result);
+		} catch (error: any) {
+			logger.error(`Errors at Get all courses : ${error.message}`);
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in get all Courses`,
+					body: { error: error.message },
+				}),
+			);
+		}
+	}
 }
 
 const courseService = new CoursesService();
