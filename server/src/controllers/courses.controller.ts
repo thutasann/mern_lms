@@ -11,6 +11,7 @@ class CoursesController {
 	constructor(private readonly _courseService: CoursesService) {
 		this.uploadCourse = this.uploadCourse.bind(this);
 		this.editCourse = this.editCourse.bind(this);
+		this.getSingleCourse = this.getSingleCourse.bind(this);
 	}
 
 	@catchAsyncErrors()
@@ -114,6 +115,9 @@ class CoursesController {
 			);
 		}
 	}
+
+	@catchAsyncErrors()
+	public async getSingleCourse(req: Request, res: Response | any) {}
 }
 
 const courseService = new CoursesService();

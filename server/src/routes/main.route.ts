@@ -1,5 +1,6 @@
 import express from 'express';
 import { Responer } from '../core/utils/responer';
+import { KeyRotationService } from '../core/utils/security/key-rotation';
 
 /** main router */
 const mainRouter = express.Router();
@@ -14,6 +15,11 @@ mainRouter.get('/', (req, res, next) => {
 			statusCode: 200,
 		}),
 	);
+});
+
+mainRouter.get('/keys', (req, res: any) => {
+	const keyService = KeyRotationService.getInstance();
+	return res.status(200).json(keyService.getAllValidKeys());
 });
 
 export default mainRouter;
