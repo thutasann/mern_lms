@@ -7,6 +7,7 @@ import path from 'path';
 import { handleErrorWithLogger } from './core/middlewares/errors.middleware';
 import { MAINSERVER_PREFIX } from './core/utils/constants';
 import { limiter, shouldCompress } from './core/utils/middleware-utils';
+import { developmentDecryptor } from './core/utils/security/development-decryptor';
 import courseRouter from './routes/courses.route';
 import mainRouter from './routes/main.route';
 import userRouter from './routes/users.route';
@@ -33,6 +34,7 @@ app.use(
 		filter: shouldCompress,
 	}),
 );
+if (process.env.NODE_ENV === 'development') app.use(developmentDecryptor());
 
 // Routers
 app.use(MAINSERVER_PREFIX, mainRouter);

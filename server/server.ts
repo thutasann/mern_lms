@@ -10,6 +10,8 @@ let server: Server;
 
 connectDB()
 	.then(() => {
+		logger.info(`==> NODE_ENV : ${process.env.NODE_ENV}`);
+
 		// cloudinary config
 		cloudinary.config({
 			cloud_name: process.env.CLOUD_NAME,

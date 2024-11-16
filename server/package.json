@@ -5,9 +5,9 @@
   "main": "server.ts",
   "scripts": {
     "server:dev": "nodemon server.ts",
-    "server:prod": "node dist/server.js",
     "socket:dev": "nodemon socket.ts",
-    "socket:prod": "node dist/socket.js",
+    "server:prod": "NODE_ENV=production node dist/server.js",
+    "socket:prod": "NODE_ENV=production node dist/socket.js",
     "build": "npm run remove:dist && tsc && npm run minify",
     "postbuild": "cp -R public dist/ && cp -R src/email-templates dist/src/",
     "minify": "find dist -name '*.js' -exec terser {} --compress --mangle --output {} \\;",
