@@ -17,5 +17,9 @@ courseRouter.get('/courses', courseController.getAllCourses);
 courseRouter.post('/courses/create', courseController.uploadCourse);
 courseRouter.put('/courses/edit/:id', courseController.editCourse);
 courseRouter.get('/courses/:id', courseController.getSingleCourse);
+courseRouter.get(
+	'/courses/get-course-content/:id',
+	courseController.getCourseByUser,
+);
 
 export default courseRouter;

@@ -132,6 +132,25 @@ export class CoursesService {
 		}
 	}
 
+	/** get course content -- only for valid user */
+	public async getCourseByUser(courseId: string) {
+		try {
+			const objectId = new mongoose.Types.ObjectId(courseId);
+			const course = await courseModel.findById(objectId);
+			const content = course?.courseData;
+			return Responer({
+				statusCode: 200,
+				devMessage: 'get course by user',
+				message: `get course by user success`,
+				body: {
+					content,
+				},
+			});
+		} catch (error) {
+			throw new APIError(`Error in getting course by user : ${error}`);
+		}
+	}
+
 	/** cloudinary upload */
 	private async cloudinaryUpload(
 		public_id: string | undefined,

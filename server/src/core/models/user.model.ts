@@ -41,7 +41,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema<IUser>(
 		},
 		courses: [
 			{
-				courseId: String,
+				_id: String,
 			},
 		],
 	},

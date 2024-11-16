@@ -13,6 +13,7 @@ class CoursesController {
 		this.editCourse = this.editCourse.bind(this);
 		this.getSingleCourse = this.getSingleCourse.bind(this);
 		this.getAllCourses = this.getAllCourses.bind(this);
+		this.getCourseByUser = this.getCourseByUser.bind(this);
 	}
 
 	/** upload/create course */
@@ -152,6 +153,54 @@ class CoursesController {
 					statusCode: 500,
 					message: error,
 					devMessage: `Something went wrong in get all Courses`,
+					body: { error: error.message },
+				}),
+			);
+		}
+	}
+
+	/** get course content -- only for valid user */
+	@catchAsyncErrors()
+	public async getCourseByUser(req: Request, res: Response | any) {
+		try {
+			const courseId = req.params?.id;
+
+			if (!courseId) {
+				return res.status(400).json(
+					Responer({
+						statusCode: 400,
+						message: 'Course Id is required',
+						devMessage: `Invalid course Id`,
+						body: {},
+					}),
+				);
+			}
+
+			const userCourseList = req?.user?.courses || [];
+			const courseExists = userCourseList?.find(
+				(course) => course._id === courseId,
+			);
+
+			if (!courseExists) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						message: 'Your are not eligible to access this course',
+						devMessage: `Not allowed to access this course`,
+						body: {},
+					}),
+				);
+			}
+
+			const courseContent = await this._courseService.getCourseByUser(courseId);
+			return res.status(200).json(courseContent);
+		} catch (error: any) {
+			logger.error(`Errors at Get Course By User : ${error.message}`);
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in get course by user`,
 					body: { error: error.message },
 				}),
 			);
