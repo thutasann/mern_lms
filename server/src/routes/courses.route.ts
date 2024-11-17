@@ -26,5 +26,10 @@ courseRouter.put(
 	isAuthenticated,
 	courseController.addQuestion,
 );
+courseRouter.put(
+	'/courses/add-answer',
+	isAuthenticated,
+	courseController.addAnswer,
+);
 
 export default courseRouter;

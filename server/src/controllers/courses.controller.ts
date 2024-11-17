@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
 import { CreateCourseRequest } from '../core/dto/course.dto';
-import { AddQuestionDataRequest } from '../core/dto/question.dto';
+import {
+	AddAnswerDataRequest,
+	AddQuestionDataRequest,
+} from '../core/dto/question.dto';
 import { RequestValidator } from '../core/utils/error/request-validator';
 import { logger } from '../core/utils/logger';
 import { Responer } from '../core/utils/responer';
 import { CoursesService } from '../services/courses.service';
+import { EmailService } from '../services/email.service';
 
 /** User Controllers */
 class CoursesController {
@@ -16,6 +20,7 @@ class CoursesController {
 		this.getAllCourses = this.getAllCourses.bind(this);
 		this.getCourseByUser = this.getCourseByUser.bind(this);
 		this.addQuestion = this.addQuestion.bind(this);
+		this.addAnswer = this.addAnswer.bind(this);
 	}
 
 	/** upload/create course */
@@ -209,6 +214,7 @@ class CoursesController {
 		}
 	}
 
+	/** add question to course data  */
 	@catchAsyncErrors()
 	public async addQuestion(req: Request, res: Response | any) {
 		const { errors, input } = await RequestValidator(
@@ -242,7 +248,42 @@ class CoursesController {
 			);
 		}
 	}
+
+	/** add answer in course question */
+	@catchAsyncErrors()
+	public async addAnswer(req: Request, res: Response | any) {
+		const { errors, input } = await RequestValidator(
+			AddAnswerDataRequest,
+			req.body,
+		);
+
+		if (errors) {
+			return res.status(400).json(
+				Responer({
+					statusCode: 400,
+					message: errors as string,
+					devMessage: 'Your Request is invalid',
+					body: {},
+				}),
+			);
+		}
+
+		try {
+			const user = req?.user;
+			await this._courseService.addAnswer(user, input, res);
+		} catch (error: any) {
+			logger.error(`Errors at Adding Question : ${error.message}`);
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in Adding Question`,
+					body: { error: error.message },
+				}),
+			);
+		}
+	}
 }
 
-const courseService = new CoursesService();
+const courseService = new CoursesService(new EmailService());
 export const courseController = new CoursesController(courseService);

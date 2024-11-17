@@ -4,6 +4,7 @@ import { IUser } from './user.type';
 export interface IComment extends Document {
 	user: Partial<IUser>;
 	question: string;
+	answer?: string;
 	questionReplies: IComment[];
 }
 

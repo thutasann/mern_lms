@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				line-height: 1.6;
+				color: #333;
+				max-width: 600px;
+				margin: 0 auto;
+				padding: 20px;
+			}
+			.header {
+				background-color: #f5f5f5;
+				padding: 20px;
+				border-radius: 5px;
+				margin-bottom: 20px;
+			}
+			.content {
+				padding: 20px;
+			}
+			.footer {
+				margin-top: 30px;
+				padding-top: 20px;
+				border-top: 1px solid #eee;
+				font-size: 12px;
+				color: #666;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<h2>New Response to Your Question</h2>
+		</div>
+
+		<div class="content">
+			<p>Hello <%= name %>,</p>
+
+			<p>
+				You have received a new response to your question in the course "<%=
+				title %>".
+			</p>
+
+			<p>You can view the response by clicking the button below:</p>
+
+			<div style="text-align: center; margin: 30px 0">
+				<a
+					href="#"
+					style="
+						background-color: #007bff;
+						color: white;
+						padding: 12px 24px;
+						text-decoration: none;
+						border-radius: 5px;
+					"
+				>
+					View Response
+				</a>
+			</div>
+
+			<p>
+				If you have any further questions, feel free to ask in the course
+				discussion.
+			</p>
+
+			<p>Best regards,<br />Your Course Team</p>
+		</div>
+
+		<div class="footer">
+			<p>
+				This email was sent to you because you are enrolled in "<%= title %>".
+			</p>
+			<p>
+				If you don't want to receive these notifications, you can update your
+				email preferences in your account settings.
+			</p>
+		</div>
+	</body>
+</html>

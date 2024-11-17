@@ -359,7 +359,7 @@
 					"response": []
 				},
 				{
-					"name": "add question",
+					"name": "add question in course content",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -384,6 +384,37 @@
 								"v1",
 								"courses",
 								"add-question"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add answer in question",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"answer\": \"this is answer two\",\n    \"courseId\": \"67383bd0795c1aee85524523\",\n    \"contentId\": \"67383bd0795c1aee85524528\",\n    \"questionId\": \"6739a0d88177894759b0accb\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/courses/add-answer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"courses",
+								"add-answer"
 							]
 						}
 					},

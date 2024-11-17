@@ -2,7 +2,10 @@ import cloudinary from 'cloudinary';
 import mongoose from 'mongoose';
 import { CACHE_TTL } from '../core/configs/cache.config';
 import { CreateCourseRequest } from '../core/dto/course.dto';
-import { AddQuestionDataRequest } from '../core/dto/question.dto';
+import {
+	AddAnswerDataRequest,
+	AddQuestionDataRequest,
+} from '../core/dto/question.dto';
 import courseModel from '../core/models/course.model';
 import { IComment } from '../core/types/course.type';
 import { IUser } from '../core/types/user.type';
@@ -10,6 +13,7 @@ import { APIError } from '../core/utils/error/errors';
 import { logger } from '../core/utils/logger';
 import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
+import { EmailService } from './email.service';
 
 /** Courses Service */
 export class CoursesService {
@@ -17,7 +21,7 @@ export class CoursesService {
 	private readonly excludeCourseData =
 		'-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links';
 
-	constructor() {}
+	constructor(private readonly _emailService: EmailService) {}
 
 	/** upload course thumbnail to cloudinary */
 	public async uploadCourse(public_id: string | undefined, thumbnail: string) {
@@ -225,7 +229,112 @@ export class CoursesService {
 		}
 	}
 
-	/** cloudinary upload */
+	/** add answer to question */
+	public async addAnswer(
+		user: IUser,
+		body: AddAnswerDataRequest,
+		res: Response | any,
+	) {
+		try {
+			const { answer, courseId, contentId, questionId } = body;
+			const courseObjectId = new mongoose.Types.ObjectId(courseId);
+			const contentObjectId = new mongoose.Types.ObjectId(contentId);
+			const questionObjectId = new mongoose.Types.ObjectId(questionId);
+
+			const course = await courseModel.findById(courseObjectId);
+			if (!course) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'course not found',
+						message: `course not found`,
+						body: {},
+					}),
+				);
+			}
+
+			const courseContent = course?.courseData?.find((item) =>
+				(item._id as any).equals(contentObjectId),
+			);
+
+			if (!courseContent) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'invalid content id',
+						message: `content id not found`,
+						body: {},
+					}),
+				);
+			}
+
+			const question = courseContent?.questions?.find((item) =>
+				(item._id as any).equals(questionId),
+			);
+
+			if (!question) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'invalid question id',
+						message: `question id not found`,
+						body: {},
+					}),
+				);
+			}
+
+			const newAnswer = {
+				user,
+				answer,
+			} as Partial<IComment>;
+
+			question.questionReplies.push(newAnswer as IComment);
+
+			await course?.save();
+
+			if (user?._id === question.user._id) {
+				/** @todo: create notification */
+			} else {
+				const data = {
+					name: question.user.name,
+					title: courseContent.title,
+				};
+
+				try {
+					await this._emailService.sendEmail({
+						email: user.email,
+						subject: 'Question Reply',
+						tempate: 'question-reply.ejs',
+						data,
+					});
+				} catch (error) {
+					logger.error(`Error at sending Question reply email : ${error}`);
+				}
+			}
+
+			return res.status(201).json(
+				Responer({
+					statusCode: 201,
+					devMessage: 'add answer success',
+					message: `aded answer successfully`,
+					body: {
+						course,
+					},
+				}),
+			);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					devMessage: 'cannot add answer',
+					message: `something went wrong at adding answer`,
+					body: { error },
+				}),
+			);
+		}
+	}
+
+	/** cloudinary upload @private */
 	private async cloudinaryUpload(
 		public_id: string | undefined,
 		avatar: string,
