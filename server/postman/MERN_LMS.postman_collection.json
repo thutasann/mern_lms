@@ -359,6 +359,37 @@
 					"response": []
 				},
 				{
+					"name": "add question",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"question\": \"this is question one\",\n    \"courseId\": \"67383bd0795c1aee85524523\",\n    \"contentId\": \"67383bd0795c1aee85524528\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/courses/add-question",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"courses",
+								"add-question"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "course edit",
 					"request": {
 						"method": "PUT",
