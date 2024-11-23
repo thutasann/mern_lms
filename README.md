@@ -1,6 +1,6 @@
 # MERN LMS
 
-MERN Stack LMS with
+MERN Stack LMS focused on the backend with
 
 - Nodejs
 - Expressjs
