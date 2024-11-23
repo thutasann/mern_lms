@@ -469,9 +469,11 @@ export class CoursesService {
 			const replyData = {
 				user,
 				comment,
-			} as IReview;
+			} as Partial<IComment>;
 
-			course.reviews.push(replyData);
+			if (!review.commentReplies) review.commentReplies = [];
+
+			review.commentReplies.push(replyData as IComment);
 
 			await course.save();
 
