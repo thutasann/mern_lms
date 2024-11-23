@@ -69,3 +69,15 @@ export class AddReviewRequest {
 	@IsNumber()
 	rating: number;
 }
+
+/** Add Reply to Review Request */
+export class AddReplyRequest {
+	@IsString()
+	comment: string;
+
+	@IsString()
+	courseId: string;
+
+	@IsString()
+	reviewId: string;
+}

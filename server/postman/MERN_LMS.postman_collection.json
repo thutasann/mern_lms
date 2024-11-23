@@ -453,6 +453,37 @@
 					"response": []
 				},
 				{
+					"name": "add reply in review",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\": \"this is reply two\",\n    \"courseId\": \"67383bd0795c1aee85524523\",\n    \"reviewId\": \"6741a97e3f72fd7c8b13ef76\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/courses/add-reply",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"courses",
+								"add-reply"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "test",
 					"request": {
 						"method": "PUT",

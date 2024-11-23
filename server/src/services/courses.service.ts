@@ -1,7 +1,11 @@
 import cloudinary from 'cloudinary';
 import mongoose from 'mongoose';
 import { CACHE_TTL } from '../core/configs/cache.config';
-import { AddReviewRequest, CreateCourseRequest } from '../core/dto/course.dto';
+import {
+	AddReplyRequest,
+	AddReviewRequest,
+	CreateCourseRequest,
+} from '../core/dto/course.dto';
 import {
 	AddAnswerDataRequest,
 	AddQuestionDataRequest,
@@ -334,6 +338,7 @@ export class CoursesService {
 		}
 	}
 
+	/** add review to course */
 	public async addReview(
 		user: IUser,
 		courseId: string,
@@ -415,6 +420,77 @@ export class CoursesService {
 					statusCode: 500,
 					devMessage: 'cannot add review',
 					message: `something went wrong at adding review`,
+					body: { error },
+				}),
+			);
+		}
+	}
+
+	/** add reply to review */
+	public async addReplyToReview(
+		user: IUser,
+		body: AddReplyRequest,
+		res: Response | any,
+	) {
+		try {
+			const { comment, courseId, reviewId } = body;
+			const courseObjectId = new mongoose.Types.ObjectId(courseId);
+			const reviewObjectId = new mongoose.Types.ObjectId(courseId);
+			const course = await courseModel.findOne({
+				_id: courseObjectId,
+			});
+
+			if (!course) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'course not found',
+						message: 'course not found',
+						body: {},
+					}),
+				);
+			}
+
+			const review = course?.reviews.find(
+				(rev) => rev?._id?.toString() === reviewId,
+			);
+
+			if (!review) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'review not found',
+						message: 'review not found',
+						body: {},
+					}),
+				);
+			}
+
+			const replyData = {
+				user,
+				comment,
+			} as IReview;
+
+			course.reviews.push(replyData);
+
+			await course.save();
+
+			return res.status(201).json(
+				Responer({
+					statusCode: 201,
+					devMessage: 'add review reply success',
+					message: `aded review reply successfully`,
+					body: {
+						course,
+					},
+				}),
+			);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					devMessage: 'cannot add reply to review',
+					message: `something went wrong at adding reply to review`,
 					body: { error },
 				}),
 			);

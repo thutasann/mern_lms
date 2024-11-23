@@ -36,5 +36,11 @@ courseRouter.put(
 	isAuthenticated,
 	courseController.addReview,
 );
+courseRouter.put(
+	'/courses/add-reply',
+	isAuthenticated,
+	authorizeRole('admin'),
+	courseController.addRepyToReview,
+);
 
 export default courseRouter;
