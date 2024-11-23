@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
-import { CreateCourseRequest } from '../core/dto/course.dto';
+import { AddReviewRequest, CreateCourseRequest } from '../core/dto/course.dto';
 import {
 	AddAnswerDataRequest,
 	AddQuestionDataRequest,
@@ -21,6 +21,7 @@ class CoursesController {
 		this.getCourseByUser = this.getCourseByUser.bind(this);
 		this.addQuestion = this.addQuestion.bind(this);
 		this.addAnswer = this.addAnswer.bind(this);
+		this.addReview = this.addReview.bind(this);
 	}
 
 	/** upload/create course */
@@ -273,6 +274,41 @@ class CoursesController {
 			await this._courseService.addAnswer(user, input, res);
 		} catch (error: any) {
 			logger.error(`Errors at Adding Question : ${error.message}`);
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					devMessage: `Something went wrong in Adding Question`,
+					body: { error: error.message },
+				}),
+			);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async addReview(req: Request, res: Response | any) {
+		const { errors, input } = await RequestValidator(
+			AddReviewRequest,
+			req.body,
+		);
+
+		if (errors) {
+			return res.status(400).json(
+				Responer({
+					statusCode: 400,
+					message: errors as string,
+					devMessage: 'Your Request is invalid',
+					body: {},
+				}),
+			);
+		}
+
+		try {
+			const user = req?.user;
+			const courseId = req?.params?.id;
+			await this._courseService.addReview(user, courseId, input, res);
+		} catch (error: any) {
+			logger.error(`Errors at Adding Review : ${error.message}`);
 			return res.status(500).json(
 				Responer({
 					statusCode: 500,

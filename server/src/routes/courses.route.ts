@@ -31,5 +31,10 @@ courseRouter.put(
 	isAuthenticated,
 	courseController.addAnswer,
 );
+courseRouter.put(
+	'/courses/add-review/:id',
+	isAuthenticated,
+	courseController.addReview,
+);
 
 export default courseRouter;

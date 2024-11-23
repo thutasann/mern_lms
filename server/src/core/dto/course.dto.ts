@@ -60,3 +60,12 @@ export class CreateCourseRequest {
 				url: string;
 		  };
 }
+
+/** Add Review Request */
+export class AddReviewRequest {
+	@IsString()
+	review: string;
+
+	@IsNumber()
+	rating: number;
+}

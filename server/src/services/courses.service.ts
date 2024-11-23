@@ -1,13 +1,13 @@
 import cloudinary from 'cloudinary';
 import mongoose from 'mongoose';
 import { CACHE_TTL } from '../core/configs/cache.config';
-import { CreateCourseRequest } from '../core/dto/course.dto';
+import { AddReviewRequest, CreateCourseRequest } from '../core/dto/course.dto';
 import {
 	AddAnswerDataRequest,
 	AddQuestionDataRequest,
 } from '../core/dto/question.dto';
 import courseModel from '../core/models/course.model';
-import { IComment } from '../core/types/course.type';
+import { IComment, IReview } from '../core/types/course.type';
 import { IUser } from '../core/types/user.type';
 import { APIError } from '../core/utils/error/errors';
 import { logger } from '../core/utils/logger';
@@ -328,6 +328,93 @@ export class CoursesService {
 					statusCode: 500,
 					devMessage: 'cannot add answer',
 					message: `something went wrong at adding answer`,
+					body: { error },
+				}),
+			);
+		}
+	}
+
+	public async addReview(
+		user: IUser,
+		courseId: string,
+		body: AddReviewRequest,
+		res: Response | any,
+	) {
+		try {
+			const { review, rating } = body;
+			const courseObjectId = new mongoose.Types.ObjectId(courseId);
+			const userCourseList = user?.courses;
+			const courseExists = userCourseList?.some(
+				(course) => course._id === courseId,
+			);
+
+			console.log('courseExists', courseExists);
+
+			if (!courseExists) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'not eligible to access this course',
+						message: 'you are not eligible to access this course',
+						body: {},
+					}),
+				);
+			}
+
+			const course = await courseModel.findOne({
+				_id: courseObjectId,
+			});
+
+			if (!course) {
+				return res.status(404).json(
+					Responer({
+						statusCode: 404,
+						devMessage: 'course not found',
+						message: 'course not found',
+						body: {},
+					}),
+				);
+			}
+
+			const reviewData = {
+				user,
+				comment: review,
+				rating,
+			} as Partial<IReview>;
+
+			course.reviews.push(reviewData as IReview);
+
+			let avg = 0;
+			course.reviews.forEach((review) => {
+				avg += review.rating;
+			});
+
+			course.ratings = avg / course.reviews.length;
+
+			await course.save();
+
+			/** @todo: create notification */
+			const notification = {
+				title: 'New review received',
+				message: `${user?.name} has given a review in ${course.name}`,
+			};
+
+			return res.status(201).json(
+				Responer({
+					statusCode: 201,
+					devMessage: 'add review success',
+					message: `aded review successfully`,
+					body: {
+						course,
+					},
+				}),
+			);
+		} catch (error) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					devMessage: 'cannot add review',
+					message: `something went wrong at adding review`,
 					body: { error },
 				}),
 			);
