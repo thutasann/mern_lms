@@ -15,7 +15,7 @@ import {
 /**
  * Seed Data for testing purpose
  */
-export async function seedData() {
+export async function seedBitAndLessonData() {
 	try {
 		await bitModel.deleteMany({});
 		await lessonModel.deleteMany({});
