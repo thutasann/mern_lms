@@ -42,4 +42,17 @@ testingRouter.get(
 	'/test/operators/assignments-with-pattern',
 	operatorsController.getAssignmentsWithPattern,
 );
+testingRouter.get(
+	'/test/operators/assignments-with-grade',
+	operatorsController.getAssignmentsWithGradeInfo,
+);
+testingRouter.get(
+	'/test/operators/assignments-with-populated-lessons',
+	operatorsController.getAssignmentsWithPopulatedLesson,
+);
+testingRouter.get(
+	'/test/operators/assignments-with-date-lesson',
+	operatorsController.getAssignmentsByDateAndLesson,
+);
+
 export default testingRouter;

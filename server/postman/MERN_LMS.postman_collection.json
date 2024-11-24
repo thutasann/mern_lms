@@ -654,6 +654,195 @@
 			"name": "Testings",
 			"item": [
 				{
+					"name": "mongo operators",
+					"item": [
+						{
+							"name": "upcoming assignments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/upcoming-assignments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"upcoming-assignments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "students with high grade",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/students-with-high-grade",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"students-with-high-grade"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assignments for specific lessons",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/assignments-for-specific-lessons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"assignments-for-specific-lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assignments for specific lessons Copy",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/grades-with-feedbacks",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"grades-with-feedbacks"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assignments with pattern",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/assignments-with-pattern",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"assignments-with-pattern"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assignments with grade info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/assignments-with-grade",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"assignments-with-grade"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assignments with populated lessons",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/assignments-with-populated-lessons",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"assignments-with-populated-lessons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assignments with date and lesson",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/assignments-with-date-lesson",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"assignments-with-date-lesson"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "test find",
 					"request": {
 						"method": "GET",
@@ -758,6 +947,116 @@
 								"v1",
 								"test",
 								"populate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test sample operators",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/sample-operators",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"sample-operators"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test mongoose method",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/mongoose-method",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"mongoose-method"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test mongoose statics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/mongoose-statics",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"mongoose-statics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test virtual",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/virtual",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"virtual"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test aggregate one",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/aggregate-one",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"aggregate-one"
 							]
 						}
 					},

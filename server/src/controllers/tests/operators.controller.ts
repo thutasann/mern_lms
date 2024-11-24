@@ -86,6 +86,7 @@ class OperatorsController {
 	}
 
 	/** Find Assignments with a Title Matching a Pattern `$regex` */
+	@catchAsyncErrors()
 	public async getAssignmentsWithPattern(req: Request, res: Response | any) {
 		try {
 			const assignments = await assignmentModel.find({
@@ -93,6 +94,96 @@ class OperatorsController {
 					$regex: /React/,
 					$options: 'i',
 				},
+			});
+			return res.status(200).json(assignments);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/** Fetch Assignments with Lesson and Grade Information `$lookup`  */
+	@catchAsyncErrors()
+	public async getAssignmentsWithGradeInfo(req: Request, res: Response | any) {
+		try {
+			const assignments = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'lessons',
+						localField: 'lesson',
+						foreignField: '_id',
+						as: 'lessonInfo',
+					},
+				},
+				{
+					$lookup: {
+						from: 'grades',
+						localField: '_id',
+						foreignField: 'assignment',
+						as: 'gradesInfo',
+					},
+				},
+				{
+					// flattern lessonInfo
+					$unwind: {
+						path: '$lessonInfo',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+				{
+					// flattern gradesInfo
+					$unwind: {
+						path: '$gradesInfo',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+				{
+					$project: {
+						lesson: 0,
+						__v: 0,
+					},
+				},
+			]);
+			return res.status(200).json(assignments);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**  Populate Assignment's Lesson and Grade Information `$populate`  */
+	@catchAsyncErrors()
+	public async getAssignmentsWithPopulatedLesson(
+		req: Request,
+		res: Response | any,
+	) {
+		try {
+			const assignments = await assignmentModel
+				.find()
+				.populate('lesson')
+				.exec();
+			return res.status(200).json(assignments);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/** Get Assignments by Date and Lesson `$and` */
+	@catchAsyncErrors()
+	public async getAssignmentsByDateAndLesson(
+		req: Request,
+		res: Response | any,
+	) {
+		try {
+			const assignments = await assignmentModel.find({
+				$and: [
+					{
+						dueDate: { $gt: new Date() },
+					},
+					{
+						lesson: {
+							$in: ['6742efb958f2d793d501ca1c'],
+						},
+					},
+				],
 			});
 			return res.status(200).json(assignments);
 		} catch (error: any) {
