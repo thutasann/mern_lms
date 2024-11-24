@@ -71,6 +71,25 @@ export const seedAssignmentAndGradeData = async () => {
 				dueDate: new Date('2024-12-15'),
 				lesson: lessons[1]._id, // Assign to the second lesson
 			},
+			{
+				title: 'Node.js Basics Assignment',
+				description: 'Complete the tasks related to basic Node.js concepts.',
+				dueDate: new Date('2024-12-20'),
+				lesson: lessons[2]._id, // Assign to the third lesson
+			},
+			{
+				title: 'CSS Flexbox Assignment',
+				description: 'Complete the tasks related to CSS Flexbox.',
+				dueDate: new Date('2024-12-25'),
+				lesson: lessons[3]._id, // Assign to the fourth lesson
+			},
+			{
+				title: 'Advanced JavaScript Assignment',
+				description:
+					'Complete the tasks related to advanced JavaScript topics.',
+				dueDate: new Date('2025-01-10'),
+				lesson: lessons[4]._id, // Assign to the fifth lesson
+			},
 		]);
 		logger.info('==> Assignments seeded: ' + assignments?.length);
 
@@ -87,6 +106,24 @@ export const seedAssignmentAndGradeData = async () => {
 				assignment: assignments[1]._id, // The second assignment
 				grade: 90,
 				feedback: "Well done! You've understood the basics.",
+			},
+			{
+				student: students[2]._id, // The third student
+				assignment: assignments[2]._id, // The third assignment
+				grade: 75,
+				feedback: 'Good effort, but there is room for improvement.',
+			},
+			{
+				student: students[3]._id, // The fourth student
+				assignment: assignments[3]._id, // The fourth assignment
+				grade: 92,
+				feedback: 'Excellent understanding of Flexbox!',
+			},
+			{
+				student: students[4]._id, // The fifth student
+				assignment: assignments[4]._id, // The fifth assignment
+				grade: 88,
+				feedback: 'Great work! Keep it up.',
 			},
 		]);
 		logger.info('==> Grades seeded: ' + grades?.length);

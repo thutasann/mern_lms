@@ -101,6 +101,52 @@ class OperatorsController {
 		}
 	}
 
+	/** lookup one `$lookup` */
+	@catchAsyncErrors()
+	public async lookupOne(req: Request, res: Response | any) {
+		try {
+			const assignments = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'lessons',
+						localField: 'lesson',
+						foreignField: '_id',
+						as: 'lessonDetails',
+					},
+				},
+			]);
+			return res.status(200).json(assignments);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/** `$unwind` after $lookup to flatten the resulting array into individual documents. two `$lookup` */
+	@catchAsyncErrors()
+	public async lookupTwo(req: Request, res: Response | any) {
+		try {
+			const assignments = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'lessons',
+						localField: 'lesson',
+						foreignField: '_id',
+						as: 'lessonDetails',
+					},
+				},
+				{
+					$unwind: {
+						path: '$lessonDetails',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+			]);
+			return res.status(200).json(assignments);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
 	/** Fetch Assignments with Lesson and Grade Information `$lookup`  */
 	@catchAsyncErrors()
 	public async getAssignmentsWithGradeInfo(req: Request, res: Response | any) {
@@ -149,7 +195,7 @@ class OperatorsController {
 		}
 	}
 
-	/**  Populate Assignment's Lesson and Grade Information `$populate`  */
+	/** Populate Assignment's Lesson and Grade Information `$populate`  */
 	@catchAsyncErrors()
 	public async getAssignmentsWithPopulatedLesson(
 		req: Request,
@@ -186,6 +232,172 @@ class OperatorsController {
 				],
 			});
 			return res.status(200).json(assignments);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$lookup` with Filtering and Projection in the Aggregation Pipeline
+	 * - to include specific fields or perform filtering during the $lookup stage to limit the data being joined.
+	 * - filtering the lessonDetails by title and projecting only the fields you need.
+	 */
+	@catchAsyncErrors()
+	public async getAssignmentsWithFilteredLesson(
+		req: Request,
+		res: Response | any,
+	) {
+		try {
+			const assignments = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'lessons',
+						foreignField: '_id',
+						localField: 'lesson',
+						as: 'lessonDetails',
+						pipeline: [
+							{
+								// filter lessons containing 'React'
+								$match: {
+									title: { $regex: 'React', $options: 'i' },
+								},
+							},
+							{
+								// project only title and author
+								$project: {
+									title: 1,
+									author: 1,
+								},
+							},
+						],
+					},
+				},
+				{
+					$unwind: {
+						path: '$lessonDetails',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+			]);
+			return res.status(200).json(assignments);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$lookup` with `$arrayElemAt` to Fetch First Matched Element
+	 * - fetch only the first matched document from the joined collection
+	 */
+	@catchAsyncErrors()
+	public async getAssignmentsWithFirstGrade(req: Request, res: Response | any) {
+		try {
+			const assignments = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'grades',
+						localField: '_id',
+						foreignField: 'assignment',
+						as: 'gradesDetails',
+					},
+				},
+				{
+					$addFields: {
+						firstGrade: {
+							$arrayElemAt: ['$gradesDetails', 0],
+						},
+					},
+				},
+				{
+					$project: {
+						_id: 1,
+						title: 1,
+						firstGrade: 1,
+					},
+				},
+			]);
+			return res.status(200).json(assignments);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$lookup` with `$group` to aggregate grades by lesson
+	 * -  use $match to filter data in the lookup stage and $group to aggregate the results after performing the lookup.
+	 */
+	@catchAsyncErrors()
+	public async getGradesGroupedByLesson(req: Request, res: Response | any) {
+		try {
+			const result = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'grades',
+						localField: '_id',
+						foreignField: 'assignment',
+						as: 'gradesDetails',
+					},
+				},
+				{
+					$unwind: '$gradesDetails',
+				},
+				{
+					$group: {
+						_id: '$lesson',
+						totalGrades: { $sum: '$gradesDetails.grade' },
+						averageGrade: { $avg: '$gradesDetails.grade' },
+						gradeCount: { $count: {} },
+					},
+				},
+			]);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$lookup` with multiple `$unwind` for nested joins
+	 * - to join multiple levels of nested arrays, you can use multiple $unwind stages in your pipeline.
+	 * -  join Assignments with Lessons, and then Lessons with Authors (assuming authors are stored in a separate collection).
+	 */
+	@catchAsyncErrors()
+	public async getAssignmentsWithLessonAndAuthor(
+		req: Request,
+		res: Response | any,
+	) {
+		try {
+			const result = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'lessons',
+						localField: 'lesson',
+						foreignField: '_id',
+						as: 'lessonDetails',
+					},
+				},
+				{
+					$unwind: '$lessonDetails',
+				},
+				{
+					$lookup: {
+						from: 'bits',
+						localField: 'lessonDetails.author',
+						foreignField: '_id',
+						as: 'authorDetails',
+					},
+				},
+				{
+					$unwind: '$authorDetails',
+				},
+				{
+					$project: {
+						'authorDetails.__v': 0,
+						'lessonDetails.__v': 0,
+					},
+				},
+			]);
+			return res.status(200).json(result);
 		} catch (error: any) {
 			return res.status(500).json(error);
 		}

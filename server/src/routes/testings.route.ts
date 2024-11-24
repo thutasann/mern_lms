@@ -54,5 +54,23 @@ testingRouter.get(
 	'/test/operators/assignments-with-date-lesson',
 	operatorsController.getAssignmentsByDateAndLesson,
 );
+testingRouter.get(
+	'/test/operators/assignments-with-filtered-lesson',
+	operatorsController.getAssignmentsWithFilteredLesson,
+);
+testingRouter.get(
+	'/test/operators/assignments-with-first-grade',
+	operatorsController.getAssignmentsWithFirstGrade,
+);
+testingRouter.get(
+	'/test/operators/assignments-with-lesson-author',
+	operatorsController.getAssignmentsWithLessonAndAuthor,
+);
+testingRouter.get(
+	'/test/operators/grades-grouped-by-lesson',
+	operatorsController.getGradesGroupedByLesson,
+);
+testingRouter.get('/test/operators/lookup-one', operatorsController.lookupOne);
+testingRouter.get('/test/operators/lookup-two', operatorsController.lookupTwo);
 
 export default testingRouter;
