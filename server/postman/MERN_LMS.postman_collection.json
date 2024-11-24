@@ -459,7 +459,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"comment\": \"this is reply two\",\n    \"courseId\": \"67383bd0795c1aee85524523\",\n    \"reviewId\": \"6741a97e3f72fd7c8b13ef76\"\n}",
+							"raw": "{\n    \"comment\": \"this is reply three\",\n    \"courseId\": \"67383bd0795c1aee85524523\",\n    \"reviewId\": \"6741a97e3f72fd7c8b13ef76\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -643,6 +643,121 @@
 								"courses",
 								"get-course-content",
 								"67383bd0795c1aee85524523"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Testings",
+			"item": [
+				{
+					"name": "test find",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/find",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"find"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test skip",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/skip",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"skip"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test limit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/limit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"limit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test sort",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/sort",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"sort"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "test populate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/v1/test/populate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"test",
+								"populate"
 							]
 						}
 					},

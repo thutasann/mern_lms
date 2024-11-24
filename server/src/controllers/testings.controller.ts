@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
 import courseModel from '../core/models/course.model';
+import { lessonModel } from '../core/models/test.model';
 import { logger } from '../core/utils/logger';
 
 /**
@@ -45,6 +46,20 @@ class TestingController {
 			const result = await courseModel.find().sort({
 				name: 'desc',
 			});
+			return res.status(200).json(result);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async populateMethod(req: Request, res: Response | any) {
+		try {
+			const result = await lessonModel
+				.findOne({
+					title: { $regex: 'Mas' },
+				})
+				.populate('author');
 			return res.status(200).json(result);
 		} catch (error: any) {
 			return res.status(500).json(error);
