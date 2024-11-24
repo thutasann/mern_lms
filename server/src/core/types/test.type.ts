@@ -12,3 +12,19 @@ export interface IBit extends Document {
 	birthday: Date;
 	getFullName: () => string;
 }
+
+export interface IAssignment extends Document {
+	title: string;
+	description: string;
+	dueDate: Date;
+	lesson: Types.ObjectId;
+	createdAt: Date;
+}
+
+export interface IGrade extends Document {
+	student: Types.ObjectId; // BIT (student) who completed the assignment
+	assignment: Types.ObjectId; // Assignment that was graded
+	grade: number; // Numeric grade (could be percentage or points)
+	feedback: string; // Teacher's feedback
+	createdAt: Date;
+}

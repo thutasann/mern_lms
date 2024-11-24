@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema } from 'mongoose';
-import { IBit, ILesson } from '../types/test.type';
+import { IAssignment, IBit, IGrade, ILesson } from '../types/test.type';
 
 /** bit schema */
 const bitSchema = new Schema<IBit>(
@@ -10,6 +10,7 @@ const bitSchema = new Schema<IBit>(
 		birthday: Date,
 	},
 	{
+		timestamps: true,
 		toJSON: { virtuals: true },
 	},
 );
@@ -21,6 +22,28 @@ const lessonSchema = new Schema<ILesson>({
 		type: Schema.ObjectId,
 		ref: 'BIT',
 	},
+});
+
+/** assignment schema */
+const assignmentSchema = new Schema<IAssignment>({
+	title: { type: String, required: true },
+	description: { type: String, required: true },
+	dueDate: { type: Date, required: true },
+	lesson: { type: Schema.Types.ObjectId, ref: 'Lesson', required: true },
+	createdAt: { type: Date, default: Date.now },
+});
+
+/** grade schema */
+const gradeSchema = new Schema<IGrade>({
+	student: { type: Schema.Types.ObjectId, ref: 'BIT', required: true },
+	assignment: {
+		type: Schema.Types.ObjectId,
+		ref: 'Assignment',
+		required: true,
+	},
+	grade: { type: Number, required: true },
+	feedback: { type: String, required: true },
+	createdAt: { type: Date, default: Date.now },
 });
 
 /** bit schema virtual */
@@ -39,8 +62,27 @@ bitSchema.methods.getFullName = function () {
 	return this.firstName + ' ' + this.lastName;
 };
 
+/** middlewares */
+bitSchema.pre('save', function (next) {
+	(this as any).updatedAt = Date.now();
+	next();
+});
+bitSchema.post('save', function (doc, next) {
+	console.log('Document saved : ', doc);
+	next();
+});
+
+/** models */
 export const bitModel: Model<IBit> = mongoose.model<IBit>('BIT', bitSchema);
 export const lessonModel: Model<ILesson> = mongoose.model<ILesson>(
 	'Lesson',
 	lessonSchema,
+);
+export const gradeModel: Model<IGrade> = mongoose.model<IGrade>(
+	'Grade',
+	gradeSchema,
+);
+export const assignmentModel: Model<IAssignment> = mongoose.model<IAssignment>(
+	'Assignment',
+	assignmentSchema,
 );

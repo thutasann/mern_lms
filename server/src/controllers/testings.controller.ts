@@ -104,6 +104,26 @@ class TestingController {
 			return res.status(500).json(error);
 		}
 	}
+
+	@catchAsyncErrors()
+	public async sampleOperators(req: Request, res: Response | any) {
+		try {
+			const authors = await bitModel.find({ firstName: { $regex: /john/i } });
+			const ageRange = await bitModel.find({
+				age: {
+					$gte: 18,
+					$lte: 50,
+				},
+			});
+			const response = {
+				authors,
+				ageRange,
+			};
+			return res.status(200).json(response);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
 }
 
 export const testingController = new TestingController();

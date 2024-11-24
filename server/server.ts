@@ -3,7 +3,7 @@ import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './src/app';
 import { connectDB } from './src/core/utils/db';
-import { seedData } from './src/core/utils/db/seed';
+import { seedAssignmentAndGradeData, seedData } from './src/core/utils/db/seed';
 import { logger } from './src/core/utils/logger';
 
 const PORT = process.env.PORT;
@@ -14,6 +14,7 @@ connectDB()
 		logger.info(`==> NODE_ENV : ${process.env.NODE_ENV}`);
 
 		await seedData();
+		await seedAssignmentAndGradeData();
 
 		// cloudinary config
 		cloudinary.config({
