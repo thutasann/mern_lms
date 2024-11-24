@@ -3,6 +3,7 @@ import { Server } from 'http';
 import mongoose from 'mongoose';
 import app from './src/app';
 import { connectDB } from './src/core/utils/db';
+import { seedData } from './src/core/utils/db/seed';
 import { logger } from './src/core/utils/logger';
 
 const PORT = process.env.PORT;
@@ -12,17 +13,19 @@ connectDB()
 	.then(() => {
 		logger.info(`==> NODE_ENV : ${process.env.NODE_ENV}`);
 
-		// cloudinary config
-		cloudinary.config({
-			cloud_name: process.env.CLOUD_NAME,
-			api_key: process.env.CLOUD_API_KEY,
-			api_secret: process.env.CLOUD_API_SECRET,
-		});
+		seedData().then(() => {
+			// cloudinary config
+			cloudinary.config({
+				cloud_name: process.env.CLOUD_NAME,
+				api_key: process.env.CLOUD_API_KEY,
+				api_secret: process.env.CLOUD_API_SECRET,
+			});
 
-		server = app.listen(PORT, () => {
-			logger.info(
-				`Main Server is listening on http://localhost:${PORT}/api/v1 ✅`,
-			);
+			server = app.listen(PORT, () => {
+				logger.info(
+					`Main Server is listening on http://localhost:${PORT}/api/v1 ✅`,
+				);
+			});
 		});
 	})
 	.catch((err) => {
