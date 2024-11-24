@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
-import courseModel from '../core/models/course.model';
-import { bitModel, lessonModel } from '../core/models/test.model';
-import { logger } from '../core/utils/logger';
+import { catchAsyncErrors } from '../../core/decorators/catcy-async-errrors.decorator';
+import courseModel from '../../core/models/course.model';
+import { bitModel, lessonModel } from '../../core/models/test.model';
+import { logger } from '../../core/utils/logger';
 
 /**
  *  Mongoose Testing Controller

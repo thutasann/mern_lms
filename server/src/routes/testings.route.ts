@@ -1,5 +1,5 @@
 import express from 'express';
-import { testingController } from '../controllers/testings.controller';
+import { testingController } from '../controllers/tests/testings.controller';
 import { responseTimeMiddleware } from '../core/middlewares/response-time.middleware';
 
 /** testing router */

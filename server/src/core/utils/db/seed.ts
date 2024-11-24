@@ -31,7 +31,7 @@ export async function seedData() {
 		}
 
 		const bitDocs = await bitModel.insertMany(bits);
-		logger.info(`Inserted ${bitDocs.length} BIT documents.`);
+		logger.info(`==> Inserted ${bitDocs.length} BIT documents.`);
 
 		const lessons: any[] = [];
 		for (let i = 0; i < 200; i++) {
@@ -42,7 +42,7 @@ export async function seedData() {
 			});
 		}
 		const lessonDocs = await lessonModel.insertMany(lessons);
-		logger.info(`Inserted ${lessonDocs.length} Lesson documents.`);
+		logger.info(`==> Inserted ${lessonDocs.length} Lesson documents.`);
 		logger.info(`Data seeded successfully! ✅`);
 	} catch (error) {
 		logger.error(`Error seeding data: ${error}`);
@@ -72,10 +72,8 @@ export const seedAssignmentAndGradeData = async () => {
 				lesson: lessons[1]._id, // Assign to the second lesson
 			},
 		]);
+		logger.info('==> Assignments seeded: ' + assignments?.length);
 
-		logger.info('Assignments seeded: ');
-
-		// Seed Grades
 		const students = await bitModel.find({});
 		const grades = await gradeModel.insertMany([
 			{
@@ -91,7 +89,7 @@ export const seedAssignmentAndGradeData = async () => {
 				feedback: "Well done! You've understood the basics.",
 			},
 		]);
-		logger.info('Grades seeded:');
+		logger.info('==> Grades seeded: ' + grades?.length);
 		logger.info(`Assignments and Grade Data seeded successfully! ✅`);
 	} catch (error) {
 		console.error('Error seeding assignment and grade data:', error);
