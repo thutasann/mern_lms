@@ -88,5 +88,9 @@ testingRouter.get(
 	'/test/operators/completed-assignment-with-first-grade-by-lesson',
 	operatorsController.getCompletedAssignmentsWithFirstGradeByLesson,
 );
+testingRouter.get(
+	'/test/operators/student-lesson-details/:studentId',
+	operatorsController.fetchStudentLessonDetails,
+);
 
 export default testingRouter;

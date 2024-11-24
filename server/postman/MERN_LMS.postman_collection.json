@@ -979,6 +979,29 @@
 							"response": []
 						},
 						{
+							"name": "student-lesson-details",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/student-lesson-details",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"student-lesson-details"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "match one",
 							"request": {
 								"method": "GET",

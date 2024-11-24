@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { catchAsyncErrors } from '../../core/decorators/catcy-async-errrors.decorator';
 import {
 	assignmentModel,
@@ -545,7 +546,82 @@ class OperatorsController {
 		}
 	}
 
-	public async fetchStudentLessonDetails(req: Request, res: Response | any) {}
+	/**
+	 * Fetch student lesson details `$lookup` with `let`
+	 * - Fetch lessons along with their assignments
+	 */
+	@catchAsyncErrors()
+	public async fetchStudentLessonDetails(req: Request, res: Response | any) {
+		try {
+			const studentId = req.params.studentId;
+			const lessonsWithDetails = await lessonModel.aggregate([
+				{ $match: {} },
+				{
+					$lookup: {
+						from: 'assignments', // Target collection
+						let: { lessonId: '$_id' }, // Pass the lesson's `_id` as a variable
+						pipeline: [
+							{
+								$match: {
+									$expr: { $eq: ['$lesson', '$$lessonId'] }, // Match assignments with the lesson ID
+								},
+							},
+							{
+								$lookup: {
+									from: 'grades', // Lookup grades for each assignment
+									let: { assignmentId: '$_id' }, // Pass assignment's `_id` to grades pipeline
+									pipeline: [
+										{
+											$match: {
+												$expr: {
+													$and: [
+														{ $eq: ['$assignment', '$$assignmentId'] }, // Match assignment ID
+														{
+															$eq: [
+																'$student',
+																new mongoose.Types.ObjectId(studentId),
+															],
+														}, // Match student ID
+													],
+												},
+											},
+										},
+										{
+											$project: {
+												grade: 1,
+												feedback: 1,
+												createdAt: 1,
+											}, // Only keep relevant fields
+										},
+									],
+									as: 'grades', // Assign results to this field
+								},
+							},
+							{
+								$project: {
+									title: 1,
+									description: 1,
+									dueDate: 1,
+									status: 1,
+									grades: 1, // Include grades in the output
+								},
+							},
+						],
+						as: 'assignments', // Assign results to this field
+					},
+				},
+				{
+					$project: {
+						title: 1, // Lesson title
+						assignments: 1, // Include enriched assignments
+					},
+				},
+			]);
+			return res.status(200).json(lessonsWithDetails);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
 }
 
 export const operatorsController = new OperatorsController();
