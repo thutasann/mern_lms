@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { catchAsyncErrors } from '../core/decorators/catcy-async-errrors.decorator';
 import courseModel from '../core/models/course.model';
-import { lessonModel } from '../core/models/test.model';
+import { bitModel, lessonModel } from '../core/models/test.model';
 import { logger } from '../core/utils/logger';
 
 /**
@@ -62,6 +62,33 @@ class TestingController {
 				.populate('author');
 			return res.status(200).json(result);
 		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async aggregateOne(req: Request, res: Response | any) {
+		try {
+			const result = await bitModel.aggregate([
+				{
+					$match: { age: { $gte: 30 } },
+				},
+				{ $sort: { total: -1 } },
+			]);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			logger.error('error ' + error);
+			return res.status(500).json(error);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async virtualMethod(req: Request, res: Response | any) {
+		try {
+			const result = (await bitModel.findOne({ firstName: 'John' })) as any;
+			return res.status(200).json(result.fullname);
+		} catch (error: any) {
+			logger.error('error ' + error);
 			return res.status(500).json(error);
 		}
 	}
