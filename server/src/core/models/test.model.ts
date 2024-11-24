@@ -34,6 +34,11 @@ bitSchemaVirtual.set(function (name: string) {
 	this.lastName = split[1];
 });
 
+/** methods */
+bitSchema.methods.getFullName = function () {
+	return this.firstName + ' ' + this.lastName;
+};
+
 export const bitModel: Model<IBit> = mongoose.model<IBit>('BIT', bitSchema);
 export const lessonModel: Model<ILesson> = mongoose.model<ILesson>(
 	'Lesson',

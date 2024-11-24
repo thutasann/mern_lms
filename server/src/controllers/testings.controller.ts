@@ -92,6 +92,18 @@ class TestingController {
 			return res.status(500).json(error);
 		}
 	}
+
+	@catchAsyncErrors()
+	public async mongooseMethod(req: Request, res: Response | any) {
+		try {
+			const result = await bitModel.findOne({
+				firstName: 'Charlie',
+			});
+			return res.status(200).json(result?.getFullName());
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
 }
 
 export const testingController = new TestingController();

@@ -10,4 +10,5 @@ export interface IBit extends Document {
 	lastName: string;
 	age: number;
 	birthday: Date;
+	getFullName: () => string;
 }
