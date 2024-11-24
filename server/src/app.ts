@@ -10,6 +10,8 @@ import { limiter, shouldCompress } from './core/utils/middleware-utils';
 import { developmentDecryptor } from './core/utils/security/development-decryptor';
 import courseRouter from './routes/courses.route';
 import mainRouter from './routes/main.route';
+import orderRouter from './routes/order.route';
+import testingRouter from './routes/testings.route';
 import userRouter from './routes/users.route';
 
 /** main express app */
@@ -40,6 +42,8 @@ if (process.env.NODE_ENV === 'development') app.use(developmentDecryptor());
 app.use(MAINSERVER_PREFIX, mainRouter);
 app.use(MAINSERVER_PREFIX, userRouter);
 app.use(MAINSERVER_PREFIX, courseRouter);
+app.use(MAINSERVER_PREFIX, orderRouter);
+app.use(MAINSERVER_PREFIX, testingRouter);
 
 app.all('*', (req, res) => {
 	const not_found_path = path.join(
