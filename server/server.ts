@@ -10,22 +10,22 @@ const PORT = process.env.PORT;
 let server: Server;
 
 connectDB()
-	.then(() => {
+	.then(async () => {
 		logger.info(`==> NODE_ENV : ${process.env.NODE_ENV}`);
 
-		seedData().then(() => {
-			// cloudinary config
-			cloudinary.config({
-				cloud_name: process.env.CLOUD_NAME,
-				api_key: process.env.CLOUD_API_KEY,
-				api_secret: process.env.CLOUD_API_SECRET,
-			});
+		await seedData();
 
-			server = app.listen(PORT, () => {
-				logger.info(
-					`Main Server is listening on http://localhost:${PORT}/api/v1 ✅`,
-				);
-			});
+		// cloudinary config
+		cloudinary.config({
+			cloud_name: process.env.CLOUD_NAME,
+			api_key: process.env.CLOUD_API_KEY,
+			api_secret: process.env.CLOUD_API_SECRET,
+		});
+
+		server = app.listen(PORT, () => {
+			logger.info(
+				`Main Server is listening on http://localhost:${PORT}/api/v1 ✅`,
+			);
 		});
 	})
 	.catch((err) => {

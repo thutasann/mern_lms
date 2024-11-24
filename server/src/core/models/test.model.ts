@@ -1,13 +1,14 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Model, Schema } from 'mongoose';
+import { IBit, ILesson } from '../types/test.type';
 
-const bitSchema = new Schema({
+const bitSchema = new Schema<IBit>({
 	firstName: String,
 	lastName: String,
 	age: Number,
 	birthday: Date,
 });
 
-const lessonSchema = new Schema({
+const lessonSchema = new Schema<ILesson>({
 	title: String,
 	author: {
 		type: Schema.ObjectId,
@@ -15,5 +16,8 @@ const lessonSchema = new Schema({
 	},
 });
 
-export const bitModel = mongoose.model('BIT', bitSchema);
-export const lessonModel = mongoose.model('Lesson', lessonSchema);
+export const bitModel: Model<IBit> = mongoose.model<IBit>('BIT', bitSchema);
+export const lessonModel: Model<ILesson> = mongoose.model<ILesson>(
+	'Lesson',
+	lessonSchema,
+);
