@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import { catchAsyncErrors } from '../../core/decorators/catcy-async-errrors.decorator';
 import {
 	assignmentModel,
+	bitModel,
 	gradeModel,
 	lessonModel,
 } from '../../core/models/test.model';
@@ -619,6 +620,39 @@ class OperatorsController {
 			]);
 			return res.status(200).json(lessonsWithDetails);
 		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$and`, `$or` usage
+	 */
+	@catchAsyncErrors()
+	public async andOrSample(req: Request, res: Response | any) {
+		try {
+			const and_results = await bitModel.find({
+				$and: [
+					{ age: { $gt: 18 } },
+					{ firstName: { $regex: 'John', $options: 'i' } },
+				],
+			});
+
+			const and_or_results = await assignmentModel.find({
+				$and: [
+					{
+						$or: [
+							{ title: { $regex: 'JavaScript', $options: 'i' } },
+							{ description: { $regex: 'Basics', $options: 'i' } },
+						],
+					},
+					{
+						status: 'active',
+					},
+				],
+			});
+
+			return res.status(200).json({ and_results, and_or_results });
+		} catch (error) {
 			return res.status(500).json(error);
 		}
 	}

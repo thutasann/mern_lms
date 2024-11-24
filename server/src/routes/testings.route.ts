@@ -92,5 +92,6 @@ testingRouter.get(
 	'/test/operators/student-lesson-details/:studentId',
 	operatorsController.fetchStudentLessonDetails,
 );
+testingRouter.get('/test/operators/and-or', operatorsController.andOrSample);
 
 export default testingRouter;
