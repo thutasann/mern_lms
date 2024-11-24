@@ -544,6 +544,8 @@ class OperatorsController {
 			return res.status(500).json(error);
 		}
 	}
+
+	public async fetchStudentLessonDetails(req: Request, res: Response | any) {}
 }
 
 export const operatorsController = new OperatorsController();

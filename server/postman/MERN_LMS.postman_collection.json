@@ -839,6 +839,236 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "assignments with filtered lesson",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/assignments-with-filtered-lesson",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"assignments-with-filtered-lesson"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assignments with filtered lesson Copy",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/assignments-with-first-grade",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"assignments-with-first-grade"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "assignments with filtered lesson Copy 2",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/assignments-with-lesson-author",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"assignments-with-lesson-author"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "average-grade-by-lesson",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/average-grade-by-lesson",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"average-grade-by-lesson"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "first-grade-for-assignments",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/first-grade-for-assignments",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"first-grade-for-assignments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "completed-assignment-with-first-grade-by-lesson",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/completed-assignment-with-first-grade-by-lesson",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"completed-assignment-with-first-grade-by-lesson"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "match one",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/match-one",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"match-one"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "grades-grouped-by-lesson",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/grades-grouped-by-lesson",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"grades-grouped-by-lesson"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "lookup one",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/lookup-one",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"lookup-one"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "lookup two",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/lookup-two",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"lookup-two"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
