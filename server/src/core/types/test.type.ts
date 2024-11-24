@@ -16,6 +16,7 @@ export interface IBit extends Document {
 export interface IAssignment extends Document {
 	title: string;
 	description: string;
+	status: string;
 	dueDate: Date;
 	lesson: Types.ObjectId;
 	createdAt: Date;

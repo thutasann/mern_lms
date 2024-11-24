@@ -63,30 +63,35 @@ export const seedAssignmentAndGradeData = async () => {
 				title: 'JavaScript Basics Assignment',
 				description: 'Complete the tasks related to JavaScript fundamentals.',
 				dueDate: new Date('2024-12-01'),
+				status: 'active',
 				lesson: lessons[0]._id, // Assign to the first lesson
 			},
 			{
 				title: 'React Basics Assignment',
 				description: 'Complete the tasks related to basic React concepts.',
 				dueDate: new Date('2024-12-15'),
+				status: 'active',
 				lesson: lessons[1]._id, // Assign to the second lesson
 			},
 			{
 				title: 'Node.js Basics Assignment',
 				description: 'Complete the tasks related to basic Node.js concepts.',
 				dueDate: new Date('2024-12-20'),
+				status: 'in-active',
 				lesson: lessons[2]._id, // Assign to the third lesson
 			},
 			{
 				title: 'CSS Flexbox Assignment',
 				description: 'Complete the tasks related to CSS Flexbox.',
 				dueDate: new Date('2024-12-25'),
+				status: 'active',
 				lesson: lessons[3]._id, // Assign to the fourth lesson
 			},
 			{
 				title: 'Advanced JavaScript Assignment',
 				description:
 					'Complete the tasks related to advanced JavaScript topics.',
+				status: 'in-active',
 				dueDate: new Date('2025-01-10'),
 				lesson: lessons[4]._id, // Assign to the fifth lesson
 			},

@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { catchAsyncErrors } from '../../core/decorators/catcy-async-errrors.decorator';
 import {
 	assignmentModel,
@@ -394,6 +394,148 @@ class OperatorsController {
 					$project: {
 						'authorDetails.__v': 0,
 						'lessonDetails.__v': 0,
+					},
+				},
+			]);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$match` to get the active assignments after today
+	 */
+	@catchAsyncErrors()
+	public async getActiveAssignmentsAfterToday(
+		req: Request,
+		res: Response | any,
+	) {
+		try {
+			const today = new Date();
+			const result = await assignmentModel.aggregate([
+				{
+					$match: {
+						status: 'in-active',
+						dueDate: { $gt: today },
+					},
+				},
+			]);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$group` to aggregate data by lesson
+	 * - groups assignments by lesson and calculates the average grade for each lesson from the grades array.
+	 */
+	public async getAverageGradeByLesson(req: Request, res: Response | any) {
+		try {
+			const result = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'grades',
+						localField: '_id',
+						foreignField: 'assignment',
+						as: 'gradesDetails',
+					},
+				},
+
+				{
+					$unwind: '$gradesDetails',
+				},
+				{
+					$group: {
+						_id: '$lesson',
+						totalGrades: { $sum: '$gradesDetails.grade' },
+						averageGrade: { $avg: '$gradesDetails.grade' },
+						student: { $first: '$gradesDetails.student' },
+						gradeCount: { $count: {} },
+					},
+				},
+			]);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$arrayElemAt` to get the first Grade of an Assignment
+	 */
+	public async getFirstGradeForAssignments(req: Request, res: Response | any) {
+		try {
+			const result = await assignmentModel.aggregate([
+				{
+					$lookup: {
+						from: 'grades',
+						localField: '_id',
+						foreignField: 'assignment',
+						as: 'gradesDetails',
+					},
+				},
+				{
+					$addFields: {
+						firstGrade: { $arrayElemAt: ['$gradesDetails.grade', 0] },
+					},
+				},
+				{
+					$project: {
+						title: 1,
+						firstGrade: 1,
+					},
+				},
+			]);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/**
+	 * `$match`, `$group`, and `$arrayElemAt` for Complex Aggregations
+	 * - filtering records with $match, grouping by a field with $group, and using $arrayElemAt to get specific elements from an array.
+	 */
+	public async getCompletedAssignmentsWithFirstGradeByLesson(
+		req: Request,
+		res: Response | any,
+	) {
+		try {
+			const result = await assignmentModel.aggregate([
+				{
+					$match: {
+						status: 'active',
+					},
+				},
+				{
+					$lookup: {
+						from: 'grades',
+						localField: '_id',
+						foreignField: 'assignment',
+						as: 'gradesDetails',
+					},
+				},
+				{
+					$unwind: '$gradesDetails',
+				},
+				{
+					$group: {
+						_id: '$lesson',
+						totalGrades: {
+							$sum: '$gradesDetails.grade',
+						},
+						firstGrade: {
+							$first: '$gradesDetails.grade',
+						},
+					},
+				},
+				{
+					$project: {
+						lessonId: '$_id',
+						totalGrades: 1,
+						firstGrade: 1,
 					},
 				},
 			]);

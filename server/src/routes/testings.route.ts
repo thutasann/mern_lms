@@ -72,5 +72,21 @@ testingRouter.get(
 );
 testingRouter.get('/test/operators/lookup-one', operatorsController.lookupOne);
 testingRouter.get('/test/operators/lookup-two', operatorsController.lookupTwo);
+testingRouter.get(
+	'/test/operators/match-one',
+	operatorsController.getActiveAssignmentsAfterToday,
+);
+testingRouter.get(
+	'/test/operators/average-grade-by-lesson',
+	operatorsController.getAverageGradeByLesson,
+);
+testingRouter.get(
+	'/test/operators/first-grade-for-assignments',
+	operatorsController.getFirstGradeForAssignments,
+);
+testingRouter.get(
+	'/test/operators/completed-assignment-with-first-grade-by-lesson',
+	operatorsController.getCompletedAssignmentsWithFirstGradeByLesson,
+);
 
 export default testingRouter;
