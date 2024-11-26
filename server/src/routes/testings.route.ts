@@ -1,4 +1,5 @@
 import express from 'express';
+import { comparisonController } from '../controllers/tests/comparison-opeartors.controller';
 import { operatorsController } from '../controllers/tests/operators.controller';
 import { testingController } from '../controllers/tests/testings.controller';
 import { responseTimeMiddleware } from '../core/middlewares/response-time.middleware';
@@ -93,5 +94,8 @@ testingRouter.get(
 	operatorsController.fetchStudentLessonDetails,
 );
 testingRouter.get('/test/operators/and-or', operatorsController.andOrSample);
+
+// -------- Comparison Operators --------
+testingRouter.get('/test/operators/eq', comparisonController.$eqUsages);
 
 export default testingRouter;
