@@ -660,7 +660,30 @@
 							"name": "comparison-opeartors",
 							"item": [
 								{
-									"name": "equality operator",
+									"name": "$ne operator",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/v1/test/operators/ne",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"v1",
+												"test",
+												"operators",
+												"ne"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "$eq opeartor",
 									"request": {
 										"method": "GET",
 										"header": [],
