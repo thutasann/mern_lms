@@ -657,6 +657,34 @@
 					"name": "mongo operators",
 					"item": [
 						{
+							"name": "comparison-opeartors",
+							"item": [
+								{
+									"name": "equality operator",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/v1/test/operators/eq",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"v1",
+												"test",
+												"operators",
+												"eq"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "upcoming assignments",
 							"request": {
 								"method": "GET",
@@ -984,7 +1012,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8000/api/v1/test/operators/student-lesson-details",
+									"raw": "http://localhost:8000/api/v1/test/operators/student-lesson-details/67433ae7c6f88cd68b216765",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -995,7 +1023,31 @@
 										"v1",
 										"test",
 										"operators",
-										"student-lesson-details"
+										"student-lesson-details",
+										"67433ae7c6f88cd68b216765"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "and-or",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/api/v1/test/operators/and-or",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"v1",
+										"test",
+										"operators",
+										"and-or"
 									]
 								}
 							},

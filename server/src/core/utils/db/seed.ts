@@ -17,6 +17,14 @@ import {
  */
 export async function seedBitAndLessonData() {
 	try {
+		const existingBits = await bitModel.countDocuments();
+		const existingLessons = await lessonModel.countDocuments();
+
+		if (existingBits > 0 || existingLessons > 0) {
+			logger.info('BITs and Lessons seeding skipped: data already exists. ✅');
+			return;
+		}
+
 		await bitModel.deleteMany({});
 		await lessonModel.deleteMany({});
 
@@ -54,6 +62,16 @@ export async function seedBitAndLessonData() {
  */
 export const seedAssignmentAndGradeData = async () => {
 	try {
+		const existingLesssons = await gradeModel.countDocuments();
+		const existingAssignments = await assignmentModel.countDocuments();
+
+		if (existingLesssons > 0 || existingAssignments > 0) {
+			logger.info(
+				'Grade & Assignments seeding skipped: data already exists. ✅',
+			);
+			return;
+		}
+
 		await assignmentModel.deleteMany({});
 		await gradeModel.deleteMany({});
 
