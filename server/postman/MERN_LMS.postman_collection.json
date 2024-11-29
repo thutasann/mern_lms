@@ -706,6 +706,29 @@
 									"response": []
 								},
 								{
+									"name": "$in operator Copy",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/v1/test/operators/in",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"v1",
+												"test",
+												"operators",
+												"in"
+											]
+										}
+									},
+									"response": []
+								},
+								{
 									"name": "$eq opeartor",
 									"request": {
 										"method": "GET",

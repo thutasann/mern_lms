@@ -161,6 +161,7 @@ class ComparisonControllers {
 		}
 	}
 
+	/** `$gt` operator works well with numerical and date fields. */
 	@catchAsyncErrors()
 	public async $gtUsages(req: Request, res: Response | any) {
 		try {
@@ -274,6 +275,73 @@ class ComparisonControllers {
 				conditional_projection,
 				gt_lookup_pipeline,
 			};
+			return res.status(200).json(result);
+		} catch (error) {
+			return res.status(500).json(error);
+		}
+	}
+
+	/** $in` operator matches documents where a specified field's value is in an array of possible values */
+	@catchAsyncErrors()
+	public async $inUsages(req: Request, res: Response | any) {
+		try {
+			const specific_ages = await bitModel.find({
+				age: { $in: [18, 20, 22] },
+			});
+
+			const assignments_status_include = await assignmentModel.find({
+				status: { $in: ['active', 'in-active', 'pending'] },
+			});
+
+			const in_with_lookup = await gradeModel.aggregate([
+				{
+					$lookup: {
+						from: 'assignments',
+						localField: 'assignment',
+						foreignField: '_id',
+						as: 'lessonDetails',
+					},
+				},
+				{
+					$unwind: {
+						path: '$lessonDetails',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+				{
+					$match: {
+						'lessonDetails.status': { $in: ['active'] },
+					},
+				},
+			]);
+
+			const in_with_expr = await lessonModel.aggregate([
+				{
+					$match: {
+						$expr: {
+							$in: ['$title', ['Maths', 'Science', 'History']],
+						},
+					},
+				},
+			]);
+
+			const conditional_project = await lessonModel.aggregate([
+				{
+					$project: {
+						title: 1,
+						isPopular: { $in: ['$title', ['Math', 'Science']] },
+					},
+				},
+			]);
+
+			const result = {
+				specific_ages,
+				assignments_status_include,
+				in_with_lookup,
+				in_with_expr,
+				conditional_project,
+			};
+
 			return res.status(200).json(result);
 		} catch (error) {
 			return res.status(500).json(error);
