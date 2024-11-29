@@ -160,6 +160,99 @@ class ComparisonControllers {
 			return res.status(500).json(error);
 		}
 	}
+
+	@catchAsyncErrors()
+	public async $gtUsages(req: Request, res: Response | any) {
+		try {
+			const older_than_18 = await bitModel.find({
+				age: { $gt: 18 },
+			});
+
+			const lessons_after_jan = await lessonModel.find({
+				createdAt: { $gt: new Date('2024-01-01') },
+			});
+
+			const grade_grader_than_80 = await gradeModel.aggregate([
+				{
+					$match: {
+						grade: { $gt: 80 },
+					},
+				},
+			]);
+
+			const only_assignments_due_in_the_future =
+				await assignmentModel.aggregate([
+					{
+						$match: {
+							$expr: {
+								$gt: ['$dueDate', new Date()],
+							},
+						},
+					},
+				]);
+
+			const assignment_greater_than_80_date = await gradeModel.find({
+				$and: [
+					{
+						grade: { $gt: 80 },
+					},
+					{
+						createdAt: { $gt: new Date('2024-1-1') },
+					},
+				],
+			});
+
+			const nested_lookup_gt = await lessonModel.aggregate([
+				{
+					$lookup: {
+						from: 'assignments',
+						localField: '_id',
+						foreignField: 'lesson',
+						as: 'assignments',
+					},
+				},
+				{
+					$unwind: {
+						path: '$assignments',
+						preserveNullAndEmptyArrays: true,
+					},
+				},
+				{
+					$match: {
+						'assignments.dueDate': { $gt: new Date() },
+					},
+				},
+			]);
+
+			const grades_between_80_100 = await gradeModel.find({
+				grade: { $gt: 80, $lte: 100 },
+			});
+
+			const conditional_projection = await gradeModel.aggregate([
+				{
+					$project: {
+						student: 1,
+						grade: 1,
+						isHighScore: { $gt: ['$grade', 85] },
+					},
+				},
+			]);
+
+			const result = {
+				older_than_18,
+				lessons_after_jan,
+				grade_grader_than_80,
+				only_assignments_due_in_the_future,
+				assignment_greater_than_80_date,
+				nested_lookup_gt,
+				grades_between_80_100,
+				conditional_projection,
+			};
+			return res.status(200).json(result);
+		} catch (error) {
+			return res.status(500).json(error);
+		}
+	}
 }
 
 export const comparisonController = new ComparisonControllers();

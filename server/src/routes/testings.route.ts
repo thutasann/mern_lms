@@ -98,5 +98,6 @@ testingRouter.get('/test/operators/and-or', operatorsController.andOrSample);
 // -------- Comparison Operators --------
 testingRouter.get('/test/operators/eq', comparisonController.$eqUsages);
 testingRouter.get('/test/operators/ne', comparisonController.$neUsages);
+testingRouter.get('/test/operators/gt', comparisonController.$gtUsages);
 
 export default testingRouter;

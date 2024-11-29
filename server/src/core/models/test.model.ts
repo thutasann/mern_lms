@@ -16,13 +16,16 @@ const bitSchema = new Schema<IBit>(
 );
 
 /** lesson schema */
-const lessonSchema = new Schema<ILesson>({
-	title: String,
-	author: {
-		type: Schema.ObjectId,
-		ref: 'BIT',
+const lessonSchema = new Schema<ILesson>(
+	{
+		title: String,
+		author: {
+			type: Schema.ObjectId,
+			ref: 'BIT',
+		},
 	},
-});
+	{ timestamps: true },
+);
 
 /** assignment schema */
 const assignmentSchema = new Schema<IAssignment>({
