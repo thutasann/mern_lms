@@ -238,6 +238,31 @@ class ComparisonControllers {
 				},
 			]);
 
+			const gt_lookup_pipeline = await bitModel.aggregate([
+				{
+					$lookup: {
+						from: 'lessons',
+						let: { authorId: '$_id' },
+						pipeline: [
+							{
+								$match: {
+									$expr: {
+										$and: [
+											{ $eq: ['$author', '$$authorId'] },
+											{ $gt: ['$createdAt', new Date('2023-1-1')] },
+										],
+									},
+								},
+							},
+						],
+						as: 'recentLessons',
+					},
+				},
+				{
+					$limit: 3,
+				},
+			]);
+
 			const result = {
 				older_than_18,
 				lessons_after_jan,
@@ -247,6 +272,7 @@ class ComparisonControllers {
 				nested_lookup_gt,
 				grades_between_80_100,
 				conditional_projection,
+				gt_lookup_pipeline,
 			};
 			return res.status(200).json(result);
 		} catch (error) {
