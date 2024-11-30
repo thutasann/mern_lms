@@ -2,16 +2,16 @@ import { xorSecurity } from './security/xor';
 
 export interface IResponser<T> {
 	statusCode: number;
-	message: string | unknown;
-	devMessage: string;
+	message?: string | unknown;
+	devMessage?: string;
 	body: T;
 }
 
 interface IResponseMeta {
 	statusCode: number;
 	success: boolean;
-	message: string | unknown;
-	devMessage: string;
+	message?: string | unknown;
+	devMessage?: string;
 }
 
 interface IResponseStructure<T> {
@@ -22,8 +22,8 @@ interface IResponseStructure<T> {
 /** Responser */
 export const Responer = <T>({
 	statusCode,
-	message,
-	devMessage,
+	message = 'responer message',
+	devMessage = 'responer message',
 	body,
 }: IResponser<T>) => {
 	const response: IResponseStructure<T> = {

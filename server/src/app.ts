@@ -13,6 +13,7 @@ import mainRouter from './routes/main.route';
 import orderRouter from './routes/order.route';
 import testingRouter from './routes/testings.route';
 import userRouter from './routes/users.route';
+import xpRouter from './routes/xp.route';
 
 /** main express app */
 const app = express();
@@ -44,6 +45,7 @@ app.use(MAINSERVER_PREFIX, userRouter);
 app.use(MAINSERVER_PREFIX, courseRouter);
 app.use(MAINSERVER_PREFIX, orderRouter);
 app.use(MAINSERVER_PREFIX, testingRouter);
+app.use(MAINSERVER_PREFIX, xpRouter);
 
 app.all('*', (req, res) => {
 	const not_found_path = path.join(
