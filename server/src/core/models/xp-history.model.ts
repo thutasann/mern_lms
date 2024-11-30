@@ -11,7 +11,7 @@ const xpHistorySchema = new Schema<IXpHistory>(
 	{ timestamps: true },
 );
 
-export const xpHistoryModel: Model<IXpHistory> = model<IXpHistory>(
+export const XpHistory: Model<IXpHistory> = model<IXpHistory>(
 	'XpHistory',
 	xpHistorySchema,
 );

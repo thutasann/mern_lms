@@ -7,6 +7,7 @@ import {
 	seedAssignmentAndGradeData,
 	seedBitAndLessonData,
 } from './src/core/utils/db/seed';
+import { seedXpData } from './src/core/utils/db/seed-xp';
 import { logger } from './src/core/utils/logger';
 
 const PORT = process.env.PORT;
@@ -19,6 +20,7 @@ connectDB()
 		// seed data
 		await seedBitAndLessonData();
 		await seedAssignmentAndGradeData();
+		await seedXpData();
 
 		// cloudinary config
 		cloudinary.config({
