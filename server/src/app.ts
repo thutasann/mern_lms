@@ -47,6 +47,7 @@ app.use(MAINSERVER_PREFIX, orderRouter);
 app.use(MAINSERVER_PREFIX, testingRouter);
 app.use(MAINSERVER_PREFIX, xpRouter);
 
+// not found
 app.all('*', (req, res) => {
 	const not_found_path = path.join(
 		__dirname,

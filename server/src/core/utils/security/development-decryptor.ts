@@ -20,8 +20,8 @@ export const developmentDecryptor = () => {
 
 					// In development, return both encrypted and decrypted data
 					const devResponse = {
-						_encrypted: body,
 						_decrypted: JSON.parse(decryptedData),
+						_encrypted: body,
 						_developmentMode: true,
 					};
 

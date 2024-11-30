@@ -9,6 +9,8 @@ import { XPServices } from '../services/xp.service';
 class XPController {
 	constructor(private readonly _xpService: XPServices) {
 		this.usersAndTotalXP = this.usersAndTotalXP.bind(this);
+		this.usersAtSpecificLevel = this.usersAtSpecificLevel.bind(this);
+		this.topFiveUsers = this.topFiveUsers.bind(this);
 	}
 
 	@catchAsyncErrors()
@@ -21,7 +23,38 @@ class XPController {
 				Responer({
 					statusCode: 500,
 					message: error,
-					devMessage: `Something went wrong in users and total xp`,
+					body: { error: error.message },
+				}),
+			);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async usersAtSpecificLevel(req: Request, res: Response | any) {
+		try {
+			const result = await this._xpService.usersAtSpecificLevel(3);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
+					body: { error: error.message },
+				}),
+			);
+		}
+	}
+
+	@catchAsyncErrors()
+	public async topFiveUsers(req: Request, res: Response | any) {
+		try {
+			const result = await this._xpService.topNUsers(5);
+			return res.status(200).json(result);
+		} catch (error: any) {
+			return res.status(500).json(
+				Responer({
+					statusCode: 500,
+					message: error,
 					body: { error: error.message },
 				}),
 			);

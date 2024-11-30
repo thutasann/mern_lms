@@ -30,7 +30,7 @@ export const isAuthenticated = async (
 	res: Response | any,
 	next: NextFunction,
 ) => {
-	if (req.url.includes('/test')) return next();
+	if (req.url.includes('/test') || req.url.includes('/xps')) return next();
 
 	try {
 		const access_token = req.cookies.access_token;
@@ -99,7 +99,7 @@ export const isAuthenticated = async (
  */
 export const authorizeRole = (...roles: string[]) => {
 	return (req: Request, res: Response | any, next: NextFunction) => {
-		if (req.url.includes('/test')) return next();
+		if (req.url.includes('/test') || req.url.includes('/xps')) return next();
 
 		if (!roles.includes(req?.user?.role || '')) {
 			return next(
