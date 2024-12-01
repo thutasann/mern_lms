@@ -1,6 +1,5 @@
 import { Document } from 'bson';
 import {
-	AggregateOptions,
 	AggregationCursor,
 	BulkWriteOptions,
 	CountOptions,
@@ -22,6 +21,7 @@ import {
 	WithId,
 	WithoutId,
 } from 'mongodb';
+import { AggregateOptions, PipelineStage } from 'mongoose';
 import { Filter, FindOptions, UpdateFilter } from './filter';
 
 // @ts-ignore
@@ -142,7 +142,7 @@ export interface Collection<TSchema extends object>
 	): Promise<WithId<TSchema> | null>;
 
 	aggregate<T extends Document = Document>(
-		pipeline?: Document[],
+		pipeline?: PipelineStage[],
 		options?: AggregateOptions,
 	): AggregationCursor<T>;
 
