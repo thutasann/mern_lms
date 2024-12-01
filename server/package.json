@@ -12,7 +12,8 @@
     "health": "bash scripts/mongo-check.sh && bash scripts/ping-check.sh",
     "postbuild": "cp -R public dist/ && cp -R src/email-templates dist/src/",
     "minify": "find dist -name '*.js' -exec terser {} --compress --mangle --output {} \\;",
-    "remove:dist": "rm -rf dist"
+    "remove:dist": "rm -rf dist",
+    "count": "node dist/src/core/utils/count-routes.js"
   },
   "keywords": [],
   "author": "",
