@@ -706,7 +706,7 @@
 									"response": []
 								},
 								{
-									"name": "$in operator Copy",
+									"name": "$in operator",
 									"request": {
 										"method": "GET",
 										"header": [],
@@ -746,6 +746,34 @@
 												"test",
 												"operators",
 												"eq"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "array-operators",
+							"item": [
+								{
+									"name": "$arrayElemAt opeartor",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/v1/test/operators/in",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"v1",
+												"test",
+												"operators",
+												"in"
 											]
 										}
 									},
@@ -1629,7 +1657,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/v1/xps/avg-xp-per-user",
+							"raw": "http://localhost:8000/api/v1/xps/avg-xp-per-action-type",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1639,7 +1667,7 @@
 								"api",
 								"v1",
 								"xps",
-								"avg-xp-per-user"
+								"avg-xp-per-action-type"
 							]
 						}
 					},
@@ -1765,7 +1793,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/v1/xps/xp-grouped-by-date",
+							"raw": "http://localhost:8000/api/v1/xps/xp-and-level-with-conditional-fields",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1775,7 +1803,7 @@
 								"api",
 								"v1",
 								"xps",
-								"xp-grouped-by-date"
+								"xp-and-level-with-conditional-fields"
 							]
 						}
 					},

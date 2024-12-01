@@ -1,4 +1,5 @@
 import express from 'express';
+import { arrayOperatorsController } from '../controllers/tests/array-opeartors.controller';
 import { comparisonController } from '../controllers/tests/comparison-opeartors.controller';
 import { operatorsController } from '../controllers/tests/operators.controller';
 import { testingController } from '../controllers/tests/testings.controller';
@@ -100,5 +101,11 @@ testingRouter.get('/test/operators/eq', comparisonController.$eqUsages);
 testingRouter.get('/test/operators/ne', comparisonController.$neUsages);
 testingRouter.get('/test/operators/gt', comparisonController.$gtUsages);
 testingRouter.get('/test/operators/in', comparisonController.$inUsages);
+
+// -------- Array Operators --------
+testingRouter.get(
+	'/test/operators/arrayElemAt',
+	arrayOperatorsController.$arrayElemAt,
+);
 
 export default testingRouter;
