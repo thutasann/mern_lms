@@ -1868,6 +1868,79 @@
 			]
 		},
 		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "mongo health check",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Hsu ye ywel\",\n    \"email\": \"hsuyeywel@gmail.com\",\n    \"password\": \"thutasann2002@TTS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/health/mongo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"health",
+								"mongo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mongo ping check",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Hsu ye ywel\",\n    \"email\": \"hsuyeywel@gmail.com\",\n    \"password\": \"thutasann2002@TTS\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/health/ping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"health",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "welcome route",
 			"request": {
 				"method": "GET",

@@ -9,6 +9,7 @@
     "server:prod": "NODE_ENV=production node dist/server.js",
     "socket:prod": "NODE_ENV=production node dist/socket.js",
     "build": "npm run remove:dist && tsc && npm run minify",
+    "health": "bash scripts/mongo-check.sh && bash scripts/ping-check.sh",
     "postbuild": "cp -R public dist/ && cp -R src/email-templates dist/src/",
     "minify": "find dist -name '*.js' -exec terser {} --compress --mangle --output {} \\;",
     "remove:dist": "rm -rf dist"
