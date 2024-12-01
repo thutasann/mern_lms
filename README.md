@@ -16,3 +16,8 @@ MERN Stack LMS focused on the backend with
 | ------------------- | ---------------------------- |
 | Main Backend Server | [Source](./server/server.ts) |
 | Main Socket Server  | [Source](./server/socket.ts) |
+
+## Docs
+
+- [Mongo Operators](./server/docs/mongo-operators.md)
+- [Nodejs Scripts](./server/docs/useful-scripts.md)
