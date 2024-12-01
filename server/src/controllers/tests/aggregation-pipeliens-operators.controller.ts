@@ -178,7 +178,35 @@ class AggregationPipelineController {
 				},
 			]);
 
+			const key_value = await XpHistory.aggregate([
+				{
+					$group: {
+						_id: '$user',
+						totalXP: { $sum: '$xpAwarded' },
+					},
+				},
+				{
+					$project: {
+						_id: 0,
+						key: { $toString: '$_id' },
+						value: { totalXP: '$totalXP' },
+					},
+				},
+				{
+					$group: {
+						_id: null,
+						data: { $push: { k: '$key', v: '$value' } },
+					},
+				},
+				{
+					$replaceRoot: {
+						newRoot: { $arrayToObject: '$data' },
+					},
+				},
+			]);
+
 			const result = {
+				key_value,
 				total_number_of_grades_per_student,
 				xp_and_list_of_actions,
 				group_assignments_by_year,

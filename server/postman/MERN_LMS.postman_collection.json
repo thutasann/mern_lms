@@ -762,7 +762,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:8000/api/v1/test/operators/in",
+											"raw": "http://localhost:8000/api/v1/test/operators/arrayElemAt",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -773,7 +773,35 @@
 												"v1",
 												"test",
 												"operators",
-												"in"
+												"arrayElemAt"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "aggregation-pipeline-operators",
+							"item": [
+								{
+									"name": "$group opeartor",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/v1/test/operators/group",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"v1",
+												"test",
+												"operators",
+												"group"
 											]
 										}
 									},
