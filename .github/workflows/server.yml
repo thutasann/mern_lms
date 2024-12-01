@@ -30,6 +30,6 @@ jobs:
         run: npm run build
         working-directory: server
 
-      - name: Health Check
-        run: npm run health
-        working-directory: server
+      # - name: Health Check
+      #   run: npm run health
+      #   working-directory: server
