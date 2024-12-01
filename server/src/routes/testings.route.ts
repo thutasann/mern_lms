@@ -1,4 +1,5 @@
 import express from 'express';
+import { aggregationOpeartorController } from '../controllers/tests/aggregation-pipeliens-operators.controller';
 import { arrayOperatorsController } from '../controllers/tests/array-opeartors.controller';
 import { comparisonController } from '../controllers/tests/comparison-opeartors.controller';
 import { operatorsController } from '../controllers/tests/operators.controller';
@@ -106,6 +107,12 @@ testingRouter.get('/test/operators/in', comparisonController.$inUsages);
 testingRouter.get(
 	'/test/operators/arrayElemAt',
 	arrayOperatorsController.$arrayElemAt,
+);
+
+// -------- Aggregation Pipeline Operators --------
+testingRouter.get(
+	'/test/operators/group',
+	aggregationOpeartorController.$groupUsages,
 );
 
 export default testingRouter;
