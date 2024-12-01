@@ -782,6 +782,34 @@
 							]
 						},
 						{
+							"name": "element-operators",
+							"item": [
+								{
+									"name": "$exists opeartor",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/v1/test/operators/exists",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"v1",
+												"test",
+												"operators",
+												"exists"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
 							"name": "aggregation-pipeline-operators",
 							"item": [
 								{

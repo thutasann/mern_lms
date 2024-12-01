@@ -2,6 +2,7 @@ import express from 'express';
 import { aggregationOpeartorController } from '../controllers/tests/aggregation-pipeliens-operators.controller';
 import { arrayOperatorsController } from '../controllers/tests/array-opeartors.controller';
 import { comparisonController } from '../controllers/tests/comparison-opeartors.controller';
+import { elementOperatorsController } from '../controllers/tests/element-operators.controller';
 import { operatorsController } from '../controllers/tests/operators.controller';
 import { testingController } from '../controllers/tests/testings.controller';
 import { responseTimeMiddleware } from '../core/middlewares/response-time.middleware';
@@ -113,6 +114,12 @@ testingRouter.get(
 testingRouter.get(
 	'/test/operators/group',
 	aggregationOpeartorController.$groupUsages,
+);
+
+// -------- Elements Operators --------
+testingRouter.get(
+	'/test/operators/exists',
+	elementOperatorsController.$existsUsages,
 );
 
 export default testingRouter;

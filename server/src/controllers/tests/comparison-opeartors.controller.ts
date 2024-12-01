@@ -281,7 +281,7 @@ class ComparisonControllers {
 		}
 	}
 
-	/** $in` operator matches documents where a specified field's value is in an array of possible values */
+	/** `$in` operator matches documents where a specified field's value is in an array of possible values */
 	@catchAsyncErrors()
 	public async $inUsages(req: Request, res: Response | any) {
 		try {
