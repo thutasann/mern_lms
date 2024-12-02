@@ -3,6 +3,7 @@ import { aggregationOpeartorController } from '../controllers/tests/aggregation-
 import { arrayOperatorsController } from '../controllers/tests/array-opeartors.controller';
 import { comparisonController } from '../controllers/tests/comparison-opeartors.controller';
 import { elementOperatorsController } from '../controllers/tests/element-operators.controller';
+import { evaluationOperator } from '../controllers/tests/evaluation-opeartor.controller';
 import { operatorsController } from '../controllers/tests/operators.controller';
 import { testingController } from '../controllers/tests/testings.controller';
 import { responseTimeMiddleware } from '../core/middlewares/response-time.middleware';
@@ -125,5 +126,8 @@ testingRouter.get(
 	'/test/operators/type',
 	elementOperatorsController.$typeUsages,
 );
+
+// -------- Evaluation Operators --------
+testingRouter.get('/test/operators/expr', evaluationOperator.$exprUsages);
 
 export default testingRouter;
