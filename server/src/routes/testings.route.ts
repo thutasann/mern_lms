@@ -121,5 +121,9 @@ testingRouter.get(
 	'/test/operators/exists',
 	elementOperatorsController.$existsUsages,
 );
+testingRouter.get(
+	'/test/operators/type',
+	elementOperatorsController.$typeUsages,
+);
 
 export default testingRouter;

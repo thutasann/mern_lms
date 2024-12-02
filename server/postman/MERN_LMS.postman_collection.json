@@ -806,6 +806,29 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "$type opeartor",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8000/api/v1/test/operators/type",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8000",
+											"path": [
+												"api",
+												"v1",
+												"test",
+												"operators",
+												"type"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						},
