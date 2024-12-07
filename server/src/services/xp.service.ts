@@ -205,7 +205,6 @@ export class XPServices {
 		const cacheKey = 'xp-history-grouped';
 		const cachedData = await fileCache.get<any>(cacheKey);
 		if (cachedData) {
-			console.log('cache hit...');
 			return Responer({
 				statusCode: 200,
 				body: {
@@ -246,7 +245,6 @@ export class XPServices {
 		const cacheKey = 'xp-level-conditional-fields';
 		const cachedData = await fileCache.get<any>(cacheKey);
 		if (cachedData) {
-			console.log('cache hit...');
 			return Responer({
 				statusCode: 200,
 				body: {

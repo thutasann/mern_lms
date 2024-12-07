@@ -139,7 +139,6 @@ export class CoursesService {
 			const cacheKey = 'all-courses';
 			const cachedData = await fileCache.get<any>(cacheKey);
 			if (cachedData) {
-				console.log('course cache hit...');
 				return Responer({
 					statusCode: 200,
 					body: {

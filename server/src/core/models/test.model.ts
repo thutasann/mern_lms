@@ -72,7 +72,7 @@ bitSchema.pre('save', function (next) {
 	next();
 });
 bitSchema.post('save', function (doc, next) {
-	console.log('Document saved : ', doc);
+	console.log('User Document saved : ', doc);
 	next();
 });
 

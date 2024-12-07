@@ -8,6 +8,7 @@ import { handleErrorWithLogger } from './core/middlewares/errors.middleware';
 import { MAINSERVER_PREFIX } from './core/utils/constants';
 import { limiter, shouldCompress } from './core/utils/middleware-utils';
 import { developmentDecryptor } from './core/utils/security/development-decryptor';
+import { userJob } from './cron-jobs/user-jobs';
 import courseRouter from './routes/courses.route';
 import mainRouter from './routes/main.route';
 import orderRouter from './routes/order.route';
@@ -38,6 +39,9 @@ app.use(
 	}),
 );
 if (process.env.NODE_ENV === 'development') app.use(developmentDecryptor());
+
+// Jobs
+userJob.start();
 
 // Routers
 app.use(MAINSERVER_PREFIX, mainRouter);
