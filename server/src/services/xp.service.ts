@@ -1,7 +1,10 @@
 import mongoose from 'mongoose';
+import { FileCache } from '../core/lib/file-cache';
 import { UserXps } from '../core/models/user-xp.model';
 import { XpHistory } from '../core/models/xp-history.model';
 import { Responer } from '../core/utils/responer';
+
+const fileCache = new FileCache({ cacheDir: 'xpCache', ttl: 30 });
 
 export class XPServices {
 	public async usersAndTotalXP() {
@@ -195,6 +198,17 @@ export class XPServices {
 	}
 
 	public async xpHistoryGroupedByDate() {
+		const cacheKey = 'xp-history-grouped';
+		const cachedData = await fileCache.get<any>(cacheKey);
+		if (cachedData) {
+			console.log('cache hit...');
+			return Responer({
+				statusCode: 200,
+				body: {
+					cachedData,
+				},
+			});
+		}
 		const result = await UserXps.aggregate([
 			{
 				$group: {
@@ -207,6 +221,15 @@ export class XPServices {
 				$sort: { _id: -1 },
 			},
 		]);
+		await fileCache.set(
+			cacheKey,
+			Responer({
+				statusCode: 200,
+				body: {
+					result,
+				},
+			}),
+		);
 		return Responer({
 			statusCode: 200,
 			body: {
@@ -216,6 +239,17 @@ export class XPServices {
 	}
 
 	public async xpAndLevelwithConditionalFeids() {
+		const cacheKey = 'xp-level-conditional-fields';
+		const cachedData = await fileCache.get<any>(cacheKey);
+		if (cachedData) {
+			console.log('cache hit...');
+			return Responer({
+				statusCode: 200,
+				body: {
+					cachedData,
+				},
+			});
+		}
 		const result = await UserXps.aggregate([
 			{
 				$lookup: {
@@ -241,6 +275,15 @@ export class XPServices {
 				},
 			},
 		]);
+		await fileCache.set(
+			cacheKey,
+			Responer({
+				statusCode: 200,
+				body: {
+					result,
+				},
+			}),
+		);
 		return Responer({
 			statusCode: 200,
 			body: {
