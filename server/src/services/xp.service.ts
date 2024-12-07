@@ -4,7 +4,11 @@ import { UserXps } from '../core/models/user-xp.model';
 import { XpHistory } from '../core/models/xp-history.model';
 import { Responer } from '../core/utils/responer';
 
-const fileCache = new FileCache({ cacheDir: 'xpCache', ttl: 30 });
+const fileCache = new FileCache({
+	cacheDir: 'xpCache',
+	ttl: 30,
+	namespace: 'xps',
+});
 
 export class XPServices {
 	public async usersAndTotalXP() {

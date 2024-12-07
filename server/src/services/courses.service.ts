@@ -10,6 +10,7 @@ import {
 	AddAnswerDataRequest,
 	AddQuestionDataRequest,
 } from '../core/dto/question.dto';
+import { FileCache } from '../core/lib/file-cache';
 import courseModel from '../core/models/course.model';
 import { IComment, IReview } from '../core/types/course.type';
 import { IUser } from '../core/types/user.type';
@@ -18,6 +19,12 @@ import { logger } from '../core/utils/logger';
 import redis from '../core/utils/redis';
 import { Responer } from '../core/utils/responer';
 import { EmailService } from './email.service';
+
+const fileCache = new FileCache({
+	cacheDir: 'xpCache',
+	ttl: 30,
+	namespace: 'courses',
+});
 
 /** Courses Service */
 export class CoursesService {
@@ -129,7 +136,27 @@ export class CoursesService {
 	/** get all courses without purchasing */
 	public async getAllCourses() {
 		try {
+			const cacheKey = 'all-courses';
+			const cachedData = await fileCache.get<any>(cacheKey);
+			if (cachedData) {
+				console.log('course cache hit...');
+				return Responer({
+					statusCode: 200,
+					body: {
+						cachedData,
+					},
+				});
+			}
 			const courses = await courseModel.find().select(this.excludeCourseData);
+			await fileCache.set(
+				cacheKey,
+				Responer({
+					statusCode: 200,
+					body: {
+						courses,
+					},
+				}),
+			);
 			return Responer({
 				statusCode: 201,
 				devMessage: 'Get All courses without purchasing',
